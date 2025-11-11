@@ -6,46 +6,47 @@
     <title>KVL</title>
     <style>
       :root {
-        --bg1: #0e0e11;
-        --bg2: #18181d;
-        --text: #ffffff;
-        --accent: #8c8cff;
+        --bg: #ffffff;
+        --text: #1a1a1a;
+        --accent: #4a6fa5;
+        --light-gray: #f4f4f6;
+        --mid-gray: #e0e0e3;
       }
-      html {
-        scroll-behavior: smooth;
-      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       body {
         margin: 0;
-        font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-        background: linear-gradient(180deg, var(--bg1), var(--bg2));
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        background-color: var(--bg);
         color: var(--text);
       }
       header {
         position: fixed;
         top: 0;
         width: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        z-index: 10;
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 1rem 2rem;
-        background: rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(8px);
-        z-index: 10;
       }
       header h1 {
         margin: 0;
         font-size: 1.5rem;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
       }
       nav a {
         color: var(--text);
         text-decoration: none;
         margin: 0 1rem;
-        font-size: 1rem;
+        font-weight: 500;
         position: relative;
       }
       nav a::after {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         bottom: -4px;
@@ -54,45 +55,96 @@
         background: var(--accent);
         transition: width 0.3s ease;
       }
-      nav a:hover::after {
-        width: 100%;
-      }
+      nav a:hover::after { width: 100%; }
       section {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding: 6rem 2rem;
         text-align: center;
-        padding: 4rem 2rem;
       }
       section h2 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         margin-bottom: 1rem;
+        color: var(--accent);
       }
       section p {
         max-width: 700px;
         line-height: 1.6;
-        font-size: 1.1rem;
-        color: rgba(255,255,255,0.8);
+        color: #333;
+      }
+      #home {
+        background: var(--light-gray);
       }
       #home h1 {
-        font-size: clamp(4rem, 10vw, 8rem);
-        letter-spacing: 0.15em;
-        animation: fadeIn 2s ease forwards, float 6s ease-in-out infinite;
+        font-size: clamp(3rem, 10vw, 6rem);
+        margin: 0;
+        color: var(--text);
+        animation: fadeIn 2s ease forwards;
         opacity: 0;
       }
-      @keyframes fadeIn { to { opacity: 1; } }
-      @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
+      #home p {
+        color: #555;
+        margin-top: 1rem;
+        font-size: 1.2rem;
+      }
+      #skills .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+        width: 100%;
+        max-width: 700px;
+      }
+      .skill {
+        background: var(--light-gray);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .skill:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+      }
+      #projects .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+        width: 100%;
+        max-width: 900px;
+      }
+      .card {
+        background: var(--light-gray);
+        border-radius: 12px;
+        padding: 2rem 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+      .card h3 {
+        margin-top: 0;
+        color: var(--accent);
+      }
+      #contact a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
       }
       footer {
+        background: var(--mid-gray);
         text-align: center;
-        padding: 2rem;
+        padding: 1.5rem;
+        color: #555;
         font-size: 0.9rem;
-        color: rgba(255,255,255,0.4);
       }
+      @keyframes fadeIn { to { opacity: 1; } }
       @media (max-width: 600px) {
         nav a { margin: 0 0.5rem; }
       }
@@ -104,6 +156,7 @@
       <nav>
         <a href="#home">Home</a>
         <a href="#about">About</a>
+        <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -111,31 +164,53 @@
 
     <section id="home">
       <h1>KVL</h1>
-      <p>Welcome to my digital space — where creativity meets simplicity.</p>
+      <p>Crafting interactive experiences with creativity and precision.</p>
     </section>
 
     <section id="about">
       <h2>About Me</h2>
       <p>
-        I'm a game development graduate passionate about crafting immersive and interactive experiences.
-        This website reflects my minimalist design philosophy — clarity, elegance, and impact.
+        I'm a games development graduate passionate about building engaging, meaningful, and technically polished experiences.
+        My goal is to merge technology and creativity in everything I make.
       </p>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="grid">
+        <div class="skill">Unity / Unreal Engine</div>
+        <div class="skill">C# / C++ / Python</div>
+        <div class="skill">Game Design</div>
+        <div class="skill">UI / UX</div>
+        <div class="skill">3D Modelling</div>
+        <div class="skill">Version Control (Git)</div>
+      </div>
     </section>
 
     <section id="projects">
       <h2>Projects</h2>
-      <p>
-        Here are some of my recent works. Each project blends technical skill with artistic design —
-        from small indie games to creative prototypes. More coming soon!
-      </p>
+      <div class="cards">
+        <div class="card">
+          <h3>Project One</h3>
+          <p>A short description of your first project — what it does, what tools you used, and why it matters.</p>
+        </div>
+        <div class="card">
+          <h3>Project Two</h3>
+          <p>Another project, game, or creative prototype — something that shows off your skills and creativity.</p>
+        </div>
+        <div class="card">
+          <h3>Project Three</h3>
+          <p>More examples of your work — each card can be linked to a live demo or GitHub repository.</p>
+        </div>
+      </div>
     </section>
 
     <section id="contact">
       <h2>Contact Me</h2>
-      <p>
-        Got a project idea or want to collaborate? Reach out anytime — let's create something amazing together!
-      </p>
-      <p>Email: <a href="mailto:hello@kvl.dev" style="color: var(--accent); text-decoration: none;">hello@kvl.dev</a></p>
+      <p>Want to collaborate or get in touch? Reach out below:</p>
+      <p>Email: <a href="mailto:email@kvl.dev">email@kvl.dev</a></p>
+      <p>Twitter: <a href="https://twitter.com/yourhandle">@yourhandle</a></p>
+      <p>GitHub: <a href="https://github.com/yourusername">github.com/yourusername</a></p>
     </section>
 
     <footer>© 2025 KVL</footer>

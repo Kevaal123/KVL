@@ -1,38 +1,26 @@
-# KVL — Elegant Single-Page Website
+# KVL — Modern White & Grey Portfolio Website
 
-A clean, smooth-scrolling, single-page website template for **KVL**, with sections for:
-- Home
-- About
-- Projects
-- Contact
+A single-page modern portfolio for **KVL**, featuring smooth scrolling and a blue-grey accent theme.
 
 ## Features
-- Minimal, elegant design
-- Responsive (mobile-friendly)
-- Animated title and smooth scrolling
-- GitHub Pages–ready (no build tools needed)
+- Clean white & grey design with subtle blue-grey accents
+- Sections: Home, About, Skills, Projects, Contact
+- Responsive layout (works on all devices)
+- Smooth animations and hover effects
+- 100% static and GitHub Pages ready
 
 ## Files
-- `index.html` — the entire website
-- `.nojekyll` — ensures GitHub Pages serves raw HTML correctly
-- `README.md` — deployment instructions
+- `index.html` — complete site
+- `.nojekyll` — disables GitHub Jekyll processing
+- `README.md` — deployment guide
 
 ## Deploy on GitHub Pages
 
-### 1. Create or open your repo
-For a personal site: `yourusername.github.io`  
-For a project site: any repo name works.
-
-### 2. Upload the files
-Upload `index.html`, `.nojekyll`, and `README.md` to your repo root.
-
-### 3. Enable GitHub Pages
-Go to **Settings → Pages**, select:
-- Source: *Deploy from a branch*
-- Branch: `main`, folder: `/ (root)`
-
-### 4. Visit your site
-It’ll appear at `https://yourusername.github.io` or `https://yourusername.github.io/repo-name`
+1. Create or open your repo (e.g., `yourusername.github.io`).
+2. Upload these three files to the root of the repo.
+3. Go to **Settings → Pages → Build and deployment**.
+4. Set source to **Deploy from a branch**, choose `main` and `/ (root)`.
+5. Save and visit your live site at your GitHub Pages URL.
 
 ---
-🖤 Designed with simplicity and elegance in mind.
+🩶 Built for simplicity, clarity, and modern presentation.
