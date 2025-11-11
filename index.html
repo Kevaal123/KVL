@@ -2,204 +2,135 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>KVL</title>
+    <meta name="description" content="KVL — portfolio" />
+
     <style>
-      :root {
-        --bg1: #000000;
-        --bg2: #121212;
-        --text: #ffffff;
-        --gold: #d4af37;
-        --tile: #191919;
+      :root{
+        --bg1:#000; --bg2:#121212;
+        --text:#fff; --muted:#ddd; --muter:#bbb;
+        --gold:#d4af37;
+        --tile:#191919;
+        --shadow:0 2px 8px rgba(0,0,0,.5);
       }
 
-      * {
-        box-sizing: border-box;
+      *{box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      body{
+        margin:0;
+        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+        background:linear-gradient(180deg,var(--bg1),var(--bg2));
+        color:var(--text);
       }
 
-      html {
-        scroll-behavior: smooth;
+      /* Header */
+      header{
+        position:fixed; top:0; left:0; right:0; height:64px;
+        display:flex; align-items:center; gap:.75rem;
+        padding:.5rem 1rem;
+        background:rgba(0,0,0,.82); backdrop-filter:blur(8px);
+        box-shadow:var(--shadow); z-index:10;
+        overflow:hidden;
+      }
+      .logo-link{display:flex;align-items:center;flex-shrink:0;text-decoration:none}
+      .logo-link img{height:40px;width:auto;opacity:0;transform:translateX(-8px);transition:opacity .8s ease,transform .8s ease}
+      .logo-link.loaded img{opacity:1;transform:translateX(0)}
+      nav{display:flex;gap:.25rem;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+      nav::-webkit-scrollbar{display:none}
+      nav a{
+        color:var(--text);text-decoration:none;padding:.5rem .75rem;margin:0 .25rem;
+        white-space:nowrap;position:relative;font-weight:500;opacity:.9;
+      }
+      nav a::after{
+        content:"";position:absolute;left:.75rem;right:.75rem;bottom:.35rem;height:2px;
+        background:linear-gradient(90deg,transparent,var(--gold),transparent);
+        transform:scaleX(0);transform-origin:left;transition:transform .5s ease;
+      }
+      nav a:hover::after{transform:scaleX(1)}
+
+      main{padding-top:64px}
+      section{
+        min-height:100svh;display:grid;place-items:center;text-align:center;
+        padding:6rem 1.5rem;scroll-margin-top:72px;
+      }
+      h2{font-size:2.2rem;margin:0 0 1rem;color:var(--gold)}
+      p{max-width:760px;line-height:1.65;color:var(--muted);margin:0}
+
+      /* Hero */
+      #home{padding-top:7rem}
+      #home .hero{display:grid;gap:2rem;justify-items:center}
+      #home .hero img{
+        width:clamp(220px,45vw,520px);height:auto;display:block;opacity:0;
+        filter:drop-shadow(0 0 0 rgba(212,175,55,0));
+        transition:opacity 1.2s ease,filter 2s ease;
+      }
+      #home .tagline{color:#ccc;font-size:1.15rem}
+
+      /* Grids */
+      #skills .grid{
+        display:grid;gap:1rem;width:min(720px,92vw);
+        grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin-top:2rem;
+      }
+      .skill,.card{
+        background:var(--tile);border-radius:14px;padding:1.25rem 1rem;
+        box-shadow:0 6px 20px rgba(0,0,0,.35);
+        transition:transform .4s ease,box-shadow .4s ease,outline-color .4s ease;
+        outline:1px solid rgba(212,175,55,.06);
+      }
+      .skill:hover,.card:hover{
+        transform:translateY(-6px);
+        box-shadow:0 14px 30px rgba(212,175,55,.12);
+        outline-color:rgba(212,175,55,.25);
+      }
+      #projects .cards{
+        display:grid;gap:1.25rem;width:min(980px,92vw);
+        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:2rem;
+      }
+      .card h3{margin:.25rem 0 .5rem;color:var(--gold)}
+      .card p{color:var(--muter)}
+
+      #contact a{color:var(--gold);text-decoration:none;font-weight:500}
+      footer{background:#0a0a0a;text-align:center;padding:1.5rem;color:#777;font-size:.92rem}
+
+      /* Reveal Animations */
+      .reveal{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
+      .reveal.visible{opacity:1;transform:translateY(0)}
+      .glow-once{animation:goldGlow 2200ms ease 400ms 1 forwards}
+      @keyframes goldGlow{
+        0%{filter:drop-shadow(0 0 0 rgba(212,175,55,0))}
+        100%{filter:drop-shadow(0 0 18px rgba(212,175,55,.25))}
       }
 
-      body {
-        margin: 0;
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
-        background: linear-gradient(180deg, var(--bg1), var(--bg2));
-        color: var(--text);
+      /* Back-to-top button */
+      #backTop{
+        position:fixed;bottom:1.5rem;right:1.5rem;width:46px;height:46px;
+        background:var(--gold);color:#000;border:none;border-radius:50%;
+        font-size:22px;cursor:pointer;
+        box-shadow:0 4px 14px rgba(212,175,55,.3);
+        display:flex;align-items:center;justify-content:center;
+        opacity:0;pointer-events:none;
+        transition:opacity .5s ease,transform .3s ease;
+        z-index:50;
       }
+      #backTop.show{opacity:.95;pointer-events:auto;transform:translateY(0)}
+      #backTop:hover{transform:translateY(-4px);opacity:1}
 
-      header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(8px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        z-index: 10;
-        display: flex;
-        align-items: center;
-        padding: 0.5rem 1rem;
-        overflow: hidden;
+      @media(prefers-reduced-motion:reduce){
+        html{scroll-behavior:auto}.reveal{transition:none}
+        .logo-link img,#home .hero img{transition:none}
       }
-
-      header a.logo-link {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-      }
-
-      header img {
-        height: 40px;
-        margin-right: 1rem;
-      }
-
-      nav {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-
-      nav::-webkit-scrollbar {
-        display: none;
-      }
-
-      nav a {
-        color: var(--text);
-        text-decoration: none;
-        margin: 0 1rem;
-        font-weight: 500;
-        position: relative;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-
-      nav a::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -4px;
-        width: 0%;
-        height: 2px;
-        background: var(--gold);
-        transition: width 0.3s ease;
-      }
-
-      nav a:hover::after {
-        width: 100%;
-      }
-
-      section {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 6rem 2rem;
-        text-align: center;
-      }
-
-      section h2 {
-        font-size: 2.2rem;
-        margin-bottom: 1rem;
-        color: var(--gold);
-      }
-
-      section p {
-        max-width: 700px;
-        line-height: 1.6;
-        color: #ddd;
-      }
-
-      #home img {
-        width: clamp(200px, 50vw, 500px);
-        max-width: 80%;
-        height: auto;
-        animation: fadeIn 2s ease forwards;
-        opacity: 0;
-      }
-
-      #home p {
-        color: #ccc;
-        margin-top: 2rem;
-        font-size: 1.2rem;
-      }
-
-      #skills .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1rem;
-        margin-top: 2rem;
-        width: 100%;
-        max-width: 700px;
-      }
-
-      .skill {
-        background: var(--tile);
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 4px 10px rgba(255, 215, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .skill:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 18px rgba(255, 215, 0, 0.3);
-      }
-
-      #projects .cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-        width: 100%;
-        max-width: 900px;
-      }
-
-      .card {
-        background: var(--tile);
-        border-radius: 12px;
-        padding: 2rem 1.5rem;
-        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.15);
-      }
-
-      .card h3 {
-        margin-top: 0;
-        color: var(--gold);
-      }
-
-      #contact a {
-        color: var(--gold);
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      footer {
-        background: #0a0a0a;
-        text-align: center;
-        padding: 1.5rem;
-        color: #777;
-        font-size: 0.9rem;
-      }
-
-      @keyframes fadeIn {
-        to {
-          opacity: 1;
-        }
+      @media(max-width:600px){
+        h2{font-size:1.9rem}
+        #home .tagline{font-size:1.05rem}
+        nav a{padding:.5rem .6rem}
       }
     </style>
   </head>
   <body>
     <header>
-      <a href="https://kvl.app" class="logo-link">
-        <img src="logo.png" alt="KVL logo" />
+      <a href="https://kvl.app" class="logo-link" aria-label="KVL home">
+        <img src="logo.png" alt="KVL logo">
       </a>
       <nav>
         <a href="#home">Home</a>
@@ -210,57 +141,102 @@
       </nav>
     </header>
 
-    <section id="home">
-      <img src="logo.png" alt="KVL Gold Logo" />
-      <p>Where creativity meets technology — building digital experiences that shine.</p>
-    </section>
-
-    <section id="about">
-      <h2>About Me</h2>
-      <p>
-        I'm a games development graduate passionate about crafting immersive, polished, and artistic experiences.
-        Every project is a blend of creativity, precision, and technical expertise.
-      </p>
-    </section>
-
-    <section id="skills">
-      <h2>Skills</h2>
-      <div class="grid">
-        <div class="skill">Unity / Unreal Engine</div>
-        <div class="skill">C# / C++ / Python</div>
-        <div class="skill">Game Design</div>
-        <div class="skill">UI / UX</div>
-        <div class="skill">3D Modelling</div>
-        <div class="skill">Version Control (Git)</div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <h2>Projects</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>Project One</h3>
-          <p>A showcase of your creativity and development skills — designed to stand out and inspire.</p>
+    <main>
+      <section id="home">
+        <div class="hero">
+          <img src="logo.png" alt="KVL gold logo" id="heroLogo">
+          <p class="tagline reveal">Where creativity meets technology — building digital experiences that shine.</p>
         </div>
-        <div class="card">
-          <h3>Project Two</h3>
-          <p>Another polished piece demonstrating your technical depth and artistic approach.</p>
-        </div>
-        <div class="card">
-          <h3>Project Three</h3>
-          <p>Future projects, prototypes, or experiments — all part of your creative journey.</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="contact">
-      <h2>Contact Me</h2>
-      <p>Let's connect — I'm always open to creative collaborations.</p>
-      <p>Email: <a href="mailto:email@kvl.dev">email@kvl.dev</a></p>
-      <p>Twitter: <a href="https://twitter.com/yourhandle">@yourhandle</a></p>
-      <p>GitHub: <a href="https://github.com/yourusername">github.com/yourusername</a></p>
-    </section>
+      <section id="about" class="reveal">
+        <div>
+          <h2>About Me</h2>
+          <p>I'm a games development graduate passionate about crafting immersive, polished, and artistic experiences. Every project blends creativity, precision, and technical expertise.</p>
+        </div>
+      </section>
+
+      <section id="skills" class="reveal">
+        <div>
+          <h2>Skills</h2>
+          <div class="grid">
+            <div class="skill">Unity / Unreal Engine</div>
+            <div class="skill">C# / C++ / Python</div>
+            <div class="skill">Gameplay Systems</div>
+            <div class="skill">UI / UX</div>
+            <div class="skill">3D Modelling</div>
+            <div class="skill">Git / Version Control</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="reveal">
+        <div>
+          <h2>Projects</h2>
+          <div class="cards">
+            <div class="card">
+              <h3>Project One</h3>
+              <p>A showcase of creativity and development — designed to stand out and inspire.</p>
+            </div>
+            <div class="card">
+              <h3>Project Two</h3>
+              <p>Another polished piece demonstrating technical depth and artistic approach.</p>
+            </div>
+            <div class="card">
+              <h3>Project Three</h3>
+              <p>Prototypes and experiments — snapshots of ongoing exploration.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="reveal">
+        <div>
+          <h2>Contact Me</h2>
+          <p>Let's connect — I'm always open to creative collaborations.</p>
+          <p>Email: <a href="mailto:email@kvl.dev">email@kvl.dev</a></p>
+          <p>Twitter: <a href="https://twitter.com/yourhandle">@yourhandle</a></p>
+          <p>GitHub: <a href="https://github.com/yourusername">github.com/yourusername</a></p>
+        </div>
+      </section>
+    </main>
 
     <footer>© 2025 KVL</footer>
+
+    <!-- Back to top button -->
+    <button id="backTop" aria-label="Back to top">↑</button>
+
+    <script>
+      // logo fade in
+      window.addEventListener("load",()=>{
+        document.querySelector(".logo-link")?.classList.add("loaded");
+        const hero=document.getElementById("heroLogo");
+        if(hero){
+          requestAnimationFrame(()=>{
+            hero.style.opacity="1";
+            hero.classList.add("glow-once");
+          });
+        }
+      });
+
+      // intersection observer for reveals
+      const io=new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
+        });
+      },{threshold:0.15});
+      document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+      // back to top button behavior
+      const topBtn=document.getElementById("backTop");
+      window.addEventListener("scroll",()=>{
+        if(window.scrollY>400) topBtn.classList.add("show");
+        else topBtn.classList.remove("show");
+      });
+      topBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+    </script>
   </body>
 </html>
