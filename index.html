@@ -1,56 +1,143 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KVL</title>
-    <meta name="description" content="KVL">
     <style>
       :root {
-        --bg1: #0d0d0f;
-        --bg2: #1a1a1f;
+        --bg1: #0e0e11;
+        --bg2: #18181d;
         --text: #ffffff;
-        --glow: rgba(255, 255, 255, 0.6);
+        --accent: #8c8cff;
       }
-      html, body {
-        height: 100%;
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
         margin: 0;
+        font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
         background: linear-gradient(180deg, var(--bg1), var(--bg2));
         color: var(--text);
-        font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-        display: grid;
-        place-items: center;
-        overflow: hidden;
       }
-      h1 {
-        font-size: clamp(72px, 12vw, 180px);
-        letter-spacing: 0.1em;
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+        z-index: 10;
+      }
+      header h1 {
         margin: 0;
-        opacity: 0;
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+      }
+      nav a {
+        color: var(--text);
+        text-decoration: none;
+        margin: 0 1rem;
+        font-size: 1rem;
+        position: relative;
+      }
+      nav a::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 0%;
+        height: 2px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+      }
+      nav a:hover::after {
+        width: 100%;
+      }
+      section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+      section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      section p {
+        max-width: 700px;
+        line-height: 1.6;
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.8);
+      }
+      #home h1 {
+        font-size: clamp(4rem, 10vw, 8rem);
+        letter-spacing: 0.15em;
         animation: fadeIn 2s ease forwards, float 6s ease-in-out infinite;
-        transition: text-shadow 0.6s ease, transform 0.6s ease;
+        opacity: 0;
       }
-      h1:hover {
-        text-shadow: 0 0 25px var(--glow), 0 0 50px var(--glow);
-        transform: scale(1.05);
-      }
-      @keyframes fadeIn {
-        to { opacity: 1; }
-      }
+      @keyframes fadeIn { to { opacity: 1; } }
       @keyframes float {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-10px); }
       }
       footer {
-        position: absolute;
-        bottom: 1rem;
+        text-align: center;
+        padding: 2rem;
         font-size: 0.9rem;
-        color: rgba(255,255,255,0.3);
+        color: rgba(255,255,255,0.4);
+      }
+      @media (max-width: 600px) {
+        nav a { margin: 0 0.5rem; }
       }
     </style>
   </head>
   <body>
-    <h1>KVL</h1>
+    <header>
+      <h1>KVL</h1>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section id="home">
+      <h1>KVL</h1>
+      <p>Welcome to my digital space — where creativity meets simplicity.</p>
+    </section>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        I'm a game development graduate passionate about crafting immersive and interactive experiences.
+        This website reflects my minimalist design philosophy — clarity, elegance, and impact.
+      </p>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <p>
+        Here are some of my recent works. Each project blends technical skill with artistic design —
+        from small indie games to creative prototypes. More coming soon!
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <p>
+        Got a project idea or want to collaborate? Reach out anytime — let's create something amazing together!
+      </p>
+      <p>Email: <a href="mailto:hello@kvl.dev" style="color: var(--accent); text-decoration: none;">hello@kvl.dev</a></p>
+    </section>
+
     <footer>© 2025 KVL</footer>
   </body>
 </html>
