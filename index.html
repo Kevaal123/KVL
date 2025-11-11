@@ -9,22 +9,30 @@
         --bg1: #000000;
         --bg2: #121212;
         --text: #ffffff;
-        --accent: #d4af37; /* gold */
-        --light-gray: #1a1a1a;
+        --gold: #d4af37;
+        --tile: #191919;
       }
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
         margin: 0;
         font-family: "Inter", system-ui, -apple-system, sans-serif;
         background: linear-gradient(180deg, var(--bg1), var(--bg2));
         color: var(--text);
       }
+
       header {
         position: fixed;
         top: 0;
         width: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.85);
         backdrop-filter: blur(8px);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         z-index: 10;
@@ -33,11 +41,18 @@
         padding: 0.5rem 1rem;
         overflow: hidden;
       }
+
+      header a.logo-link {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
+
       header img {
         height: 40px;
         margin-right: 1rem;
-        flex-shrink: 0;
       }
+
       nav {
         display: flex;
         flex-wrap: nowrap;
@@ -45,9 +60,11 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
       }
+
       nav::-webkit-scrollbar {
         display: none;
       }
+
       nav a {
         color: var(--text);
         text-decoration: none;
@@ -57,6 +74,7 @@
         white-space: nowrap;
         flex-shrink: 0;
       }
+
       nav a::after {
         content: "";
         position: absolute;
@@ -64,10 +82,14 @@
         bottom: -4px;
         width: 0%;
         height: 2px;
-        background: var(--accent);
+        background: var(--gold);
         transition: width 0.3s ease;
       }
-      nav a:hover::after { width: 100%; }
+
+      nav a:hover::after {
+        width: 100%;
+      }
+
       section {
         min-height: 100vh;
         display: flex;
@@ -77,16 +99,19 @@
         padding: 6rem 2rem;
         text-align: center;
       }
+
       section h2 {
         font-size: 2.2rem;
         margin-bottom: 1rem;
-        color: var(--accent);
+        color: var(--gold);
       }
+
       section p {
         max-width: 700px;
         line-height: 1.6;
         color: #ddd;
       }
+
       #home img {
         width: clamp(200px, 50vw, 500px);
         max-width: 80%;
@@ -94,11 +119,13 @@
         animation: fadeIn 2s ease forwards;
         opacity: 0;
       }
+
       #home p {
         color: #ccc;
         margin-top: 2rem;
         font-size: 1.2rem;
       }
+
       #skills .grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -107,17 +134,20 @@
         width: 100%;
         max-width: 700px;
       }
+
       .skill {
-        background: var(--light-gray);
+        background: var(--tile);
         border-radius: 12px;
         padding: 1.5rem;
         box-shadow: 0 4px 10px rgba(255, 215, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
+
       .skill:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 18px rgba(255, 215, 0, 0.3);
       }
+
       #projects .cards {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -126,26 +156,31 @@
         width: 100%;
         max-width: 900px;
       }
+
       .card {
-        background: var(--light-gray);
+        background: var(--tile);
         border-radius: 12px;
         padding: 2rem 1.5rem;
         box-shadow: 0 4px 12px rgba(255, 215, 0, 0.05);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
+
       .card:hover {
         transform: translateY(-6px);
         box-shadow: 0 8px 20px rgba(255, 215, 0, 0.15);
       }
+
       .card h3 {
         margin-top: 0;
-        color: var(--accent);
+        color: var(--gold);
       }
+
       #contact a {
-        color: var(--accent);
+        color: var(--gold);
         text-decoration: none;
         font-weight: 500;
       }
+
       footer {
         background: #0a0a0a;
         text-align: center;
@@ -153,12 +188,19 @@
         color: #777;
         font-size: 0.9rem;
       }
-      @keyframes fadeIn { to { opacity: 1; } }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
     <header>
-      <img src="logo.png" alt="KVL logo">
+      <a href="https://kvl.app" class="logo-link">
+        <img src="logo.png" alt="KVL logo" />
+      </a>
       <nav>
         <a href="#home">Home</a>
         <a href="#about">About</a>
@@ -169,7 +211,7 @@
     </header>
 
     <section id="home">
-      <img src="logo.png" alt="KVL Gold Logo">
+      <img src="logo.png" alt="KVL Gold Logo" />
       <p>Where creativity meets technology — building digital experiences that shine.</p>
     </section>
 
