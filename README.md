@@ -1,26 +1,27 @@
-# KVL — Single Page Site
+# KVL — Minimal & Elegant Single Page
 
-This repo contains a single static page that shows **KVL** centered on the screen.
+A refined single-page site showing **KVL** with smooth animations and subtle glow effects.
 
 ## Files
-- `index.html` — the page
-- `.nojekyll` — disables Jekyll on GitHub Pages so the site serves as-is
+- `index.html` — main page
+- `.nojekyll` — disables Jekyll for GitHub Pages
+- `README.md` — documentation and deployment guide
 
 ## Deploy on GitHub Pages
 
-### Option A — User/Org site
-1. Create a new repository named **`<your-username>.github.io`**.
-2. Upload `index.html` and `.nojekyll` to the root of the repo.
-3. Push to `main` and visit `https://<your-username>.github.io`.
+### Option A — Personal Site
+1. Create a repository named **`<your-username>.github.io`**
+2. Upload all files from this ZIP to the root
+3. Visit `https://<your-username>.github.io`
 
-### Option B — Project site
-1. Create any repo name you like (e.g., `kvl-site`).
-2. Upload the files to the root of the `main` branch.
-3. In the repo, go to **Settings → Pages**.
-4. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
-5. Choose **Branch: `main`**, **/ (root)** and click **Save**.
-6. Your site will be available at the URL shown in the Pages panel.
+### Option B — Project Site
+1. Create any repo name (e.g. `kvl-elegant-site`)
+2. Upload all files to the root of the `main` branch
+3. In **Settings → Pages**, choose:
+   - Source: **Deploy from a branch**
+   - Branch: **main**, folder: **/** (root)
+4. Save and open the published URL.
 
 ---
 
-If you want a custom domain later, add a `CNAME` file with your domain and configure DNS to point to GitHub Pages.
+🖤 Designed to be clean, calm, and elegant.
