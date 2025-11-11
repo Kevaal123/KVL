@@ -8,34 +8,30 @@
 
     <style>
       :root{
-        --bg1:#000; --bg2:#121212;
-        --text:#fff; --muted:#ddd; --muter:#bbb;
-        --gold:#d4af37;
-        --tile:#191919;
+        --bg1:#000;--bg2:#121212;
+        --text:#fff;--muted:#ddd;--muter:#bbb;
+        --gold:#d4af37;--tile:#191919;
         --shadow:0 2px 8px rgba(0,0,0,.5);
       }
-
       *{box-sizing:border-box}
       html{scroll-behavior:smooth}
       body{
-        margin:0;
-        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-        background:linear-gradient(180deg,var(--bg1),var(--bg2));
-        color:var(--text);
+        margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+        background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);
       }
 
       /* Header */
       header{
-        position:fixed; top:0; left:0; right:0; height:64px;
-        display:flex; align-items:center; gap:.75rem;
-        padding:.5rem 1rem;
-        background:rgba(0,0,0,.82); backdrop-filter:blur(8px);
-        box-shadow:var(--shadow); z-index:10;
-        overflow:hidden;
+        position:fixed;top:0;left:0;right:0;height:64px;
+        display:flex;align-items:center;justify-content:space-between;
+        padding:.5rem 1.5rem;
+        background:rgba(0,0,0,.82);backdrop-filter:blur(8px);
+        box-shadow:var(--shadow);z-index:10;
       }
       .logo-link{display:flex;align-items:center;flex-shrink:0;text-decoration:none}
       .logo-link img{height:40px;width:auto;opacity:0;transform:translateX(-8px);transition:opacity .8s ease,transform .8s ease}
       .logo-link.loaded img{opacity:1;transform:translateX(0)}
+
       nav{display:flex;gap:.25rem;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
       nav::-webkit-scrollbar{display:none}
       nav a{
@@ -49,6 +45,7 @@
       }
       nav a:hover::after{transform:scaleX(1)}
 
+      /* Layout fixes */
       main{padding-top:64px}
       section{
         min-height:100svh;display:grid;place-items:center;text-align:center;
@@ -93,7 +90,7 @@
       #contact a{color:var(--gold);text-decoration:none;font-weight:500}
       footer{background:#0a0a0a;text-align:center;padding:1.5rem;color:#777;font-size:.92rem}
 
-      /* Reveal Animations */
+      /* Reveal animations */
       .reveal{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
       .reveal.visible{opacity:1;transform:translateY(0)}
       .glow-once{animation:goldGlow 2200ms ease 400ms 1 forwards}
@@ -102,7 +99,7 @@
         100%{filter:drop-shadow(0 0 18px rgba(212,175,55,.25))}
       }
 
-      /* Back-to-top button */
+      /* Back to top */
       #backTop{
         position:fixed;bottom:1.5rem;right:1.5rem;width:46px;height:46px;
         background:var(--gold);color:#000;border:none;border-radius:50%;
@@ -120,10 +117,9 @@
         html{scroll-behavior:auto}.reveal{transition:none}
         .logo-link img,#home .hero img{transition:none}
       }
-      @media(max-width:600px){
-        h2{font-size:1.9rem}
-        #home .tagline{font-size:1.05rem}
-        nav a{padding:.5rem .6rem}
+      @media(max-width:768px){
+        header{justify-content:flex-start;gap:.75rem}
+        nav{flex:1}
       }
     </style>
   </head>
@@ -202,40 +198,23 @@
     </main>
 
     <footer>© 2025 KVL</footer>
-
-    <!-- Back to top button -->
     <button id="backTop" aria-label="Back to top">↑</button>
 
     <script>
-      // logo fade in
+      // logo fade
       window.addEventListener("load",()=>{
         document.querySelector(".logo-link")?.classList.add("loaded");
         const hero=document.getElementById("heroLogo");
-        if(hero){
-          requestAnimationFrame(()=>{
-            hero.style.opacity="1";
-            hero.classList.add("glow-once");
-          });
-        }
+        if(hero){requestAnimationFrame(()=>{hero.style.opacity="1";hero.classList.add("glow-once");});}
       });
-
-      // intersection observer for reveals
+      // reveal animations
       const io=new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){
-            e.target.classList.add("visible");
-            io.unobserve(e.target);
-          }
-        });
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");io.unobserve(e.target);}});
       },{threshold:0.15});
       document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
-
-      // back to top button behavior
+      // back to top
       const topBtn=document.getElementById("backTop");
-      window.addEventListener("scroll",()=>{
-        if(window.scrollY>400) topBtn.classList.add("show");
-        else topBtn.classList.remove("show");
-      });
+      window.addEventListener("scroll",()=>{if(window.scrollY>400)topBtn.classList.add("show");else topBtn.classList.remove("show");});
       topBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
     </script>
   </body>
