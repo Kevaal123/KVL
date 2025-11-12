@@ -1,139 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>KVL</title>
-<meta name="description" content="KVL — portfolio" />
-<style>
-:root {
-  --bg1:#000; --bg2:#121212; --text:#fff;
-  --muted:#ddd; --muter:#bbb; --gold:#d4af37;
-  --tile:#191919; --shadow:0 2px 8px rgba(0,0,0,.5);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);
-}
-header{
-  position:fixed;top:0;left:0;right:0;height:64px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.5rem 1.5rem;background:rgba(0,0,0,.82);
-  backdrop-filter:blur(8px);box-shadow:var(--shadow);z-index:10;
-}
-.logo-link img{height:40px;width:auto;opacity:0;transform:translateX(-8px);
-  transition:opacity .8s ease,transform .8s ease}
-.logo-link.loaded img{opacity:1;transform:translateX(0)}
-nav{display:flex;gap:.25rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-nav::-webkit-scrollbar{display:none}
-nav a{color:var(--text);text-decoration:none;padding:.5rem .75rem;margin:0 .25rem;
-  white-space:nowrap;position:relative;font-weight:500;opacity:.9;}
-nav a::after{content:"";position:absolute;left:.75rem;right:.75rem;bottom:.35rem;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
-nav a:hover::after{transform:scaleX(1)}
-main{padding-top:64px}
-section{min-height:100svh;display:grid;place-items:center;text-align:center;
-  padding:6rem 1.5rem;scroll-margin-top:72px;}
-h2{font-size:2.2rem;margin:0 0 1rem;color:var(--gold)}
-p{max-width:760px;line-height:1.65;color:var(--muted);margin:0}
-#home{padding-top:7rem}
-#home .hero{display:grid;gap:2rem;justify-items:center}
-#home .hero img{width:clamp(220px,45vw,520px);height:auto;display:block;opacity:0;
-  filter:drop-shadow(0 0 0 rgba(212,175,55,0));transition:opacity 1.2s ease,filter 2s ease;}
-#home .tagline{color:#ccc;font-size:1.15rem}
-.grid,.cards{display:grid;gap:1rem;width:min(900px,92vw);
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:2rem;}
-.skill,.card{
-  background:var(--tile);border-radius:14px;padding:1.25rem 1rem;
-  box-shadow:0 6px 20px rgba(0,0,0,.35);
-  transition:all .4s ease;outline:1px solid rgba(212,175,55,.06);
-  cursor:pointer;overflow:hidden;position:relative;
-}
-.skill:hover,.card:hover{transform:translateY(-4px);
-  box-shadow:0 14px 30px rgba(212,175,55,.12);
-  outline-color:rgba(212,175,55,.25);}
-.skill h3,.card h3{margin:0;color:var(--gold)}
-.details{max-height:0;overflow:hidden;opacity:0;
-  transition:max-height .6s ease,opacity .6s ease;padding-top:.5rem;}
-.expanded .details{max-height:200px;opacity:1;}
-#contact a{color:var(--gold);text-decoration:none;font-weight:500}
-footer{background:#0a0a0a;text-align:center;padding:1.5rem;color:#777;font-size:.92rem}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-#backTop{
-  position:fixed;bottom:1.5rem;right:1.5rem;width:46px;height:46px;background:var(--gold);
-  color:#000;border:none;border-radius:50%;font-size:22px;cursor:pointer;
-  box-shadow:0 4px 14px rgba(212,175,55,.3);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .5s ease,transform .3s ease;z-index:50;
-}
-#backTop.show{opacity:.95;pointer-events:auto;transform:translateY(0)}
-#backTop:hover{transform:translateY(-4px);opacity:1}
-</style>
-</head>
-<body>
-<header>
-  <a href="https://kvl.app" class="logo-link" aria-label="KVL home"><img src="logo.png" alt="KVL logo"></a>
-  <nav>
-    <a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
-  </nav>
-</header>
-<main>
-<section id="home"><div class="hero">
-  <img src="logo.png" alt="KVL gold logo" id="heroLogo">
-  <p class="tagline reveal">Where creativity meets technology — building digital experiences that shine.</p>
-</div></section>
-<section id="about" class="reveal"><h2>About Me</h2>
-  <p>I'm a games development graduate passionate about crafting immersive, polished, and artistic experiences. Every project blends creativity, precision, and technical expertise.</p>
-</section>
-<section id="skills" class="reveal"><h2>Skills</h2>
-  <div class="grid">
-    <div class="skill"><h3>Unity / Unreal Engine</h3><div class="details">Experience creating both 2D and 3D gameplay prototypes and polished levels.</div></div>
-    <div class="skill"><h3>C# / C++ / Python</h3><div class="details">Strong foundation in gameplay scripting, AI systems, and tools programming.</div></div>
-    <div class="skill"><h3>Gameplay Systems</h3><div class="details">Designing responsive combat, camera, and control systems.</div></div>
-    <div class="skill"><h3>UI / UX</h3><div class="details">Creating clean interfaces with smooth transitions and readable layouts.</div></div>
-    <div class="skill"><h3>3D Modelling</h3><div class="details">Proficient with Blender and Substance Painter for asset creation.</div></div>
-    <div class="skill"><h3>Git / Version Control</h3><div class="details">Efficient collaborative workflows using Git and GitHub.</div></div>
-  </div>
-</section>
-<section id="projects" class="reveal"><h2>Projects</h2>
-  <div class="cards">
-    <div class="card"><h3>Project One</h3><div class="details">A Unity-based exploration prototype featuring dynamic lighting and puzzle mechanics.</div></div>
-    <div class="card"><h3>Project Two</h3><div class="details">An Unreal Engine demo focused on real-time physics and AI combat behavior.</div></div>
-    <div class="card"><h3>Project Three</h3><div class="details">A concept for a stylized narrative game exploring emotional storytelling.</div></div>
-  </div>
-</section>
-<section id="contact" class="reveal"><h2>Contact Me</h2>
-  <p>Let's connect — I'm always open to creative collaborations.</p>
-  <p>Email: <a href="mailto:email@kvl.dev">email@kvl.dev</a></p>
-  <p>Twitter: <a href="https://twitter.com/yourhandle">@yourhandle</a></p>
-  <p>GitHub: <a href="https://github.com/yourusername">github.com/yourusername</a></p>
-</section>
-</main>
-<footer>© 2025 KVL</footer>
-<button id="backTop" aria-label="Back to top">↑</button>
-<script>
-window.addEventListener("load",()=>{
-  document.querySelector(".logo-link")?.classList.add("loaded");
-  const hero=document.getElementById("heroLogo");
-  if(hero){requestAnimationFrame(()=>{hero.style.opacity="1";});}
-});
-const io=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");io.unobserve(e.target);}});
-},{threshold:0.15});
-document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
-document.querySelectorAll(".skill,.card").forEach(el=>{
-  el.addEventListener("click",()=>el.classList.toggle("expanded"));
-});
-const topBtn=document.getElementById("backTop");
-window.addEventListener("scroll",()=>{
-  if(window.scrollY>400) topBtn.classList.add("show");
-  else topBtn.classList.remove("show");
-});
-topBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KVL</title>
+    <meta name="description" content="KVL — Games Development Portfolio" />
+    <!-- Open Graph for sharing -->
+    <meta property="og:title" content="KVL — Portfolio" />
+    <meta property="og:description" content="Dark–gold interactive portfolio: projects, skills, and contact." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="logo.png" />
+    <link rel="icon" type="image/png" href="logo.png" />
+
+    <style>
+      :root{
+        --bg1:#000; --bg2:#121212;
+        --text:#fff; --muted:#ddd; --muter:#bbb;
+        --gold:#d4af37; --tile:#191919;
+        --shadow:0 2px 8px rgba(0,0,0,.5);
+      }
+      *{box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      body{
+        margin:0;
+        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+        background:linear-gradient(180deg,var(--bg1),var(--bg2));
+        color:var(--text);
+        opacity:1;
+        transition:opacity .5s ease;
+      }
+
+      /* Scroll progress bar */
+      #progress{
+        position:fixed; top:0; left:0; height:3px; width:0;
+        background:var(--gold); z-index:100;
+        box-shadow:0 0 10px rgba(212,175,55,.5);
+      }
+
+      /* Preloader */
+      #preloader{
+        position:fixed; inset:0; background:#000;
+        display:grid; place-items:center; z-index:999;
+      }
+      #preloader .word{
+        font-size:clamp(40px,8vw,96px);
+        letter-spacing:.15em; color:var(--gold);
+        opacity:0; transform:translateY(10px);
+        animation:kvlin 1200ms ease forwards, kvlglow 2200ms ease 400ms 1 forwards;
+      }
+      @keyframes kvlin{to{opacity:1; transform:translateY(0)}}
+      @keyframes kvlglow{
+        0%{text-shadow:0 0 0 rgba(212,175,55,0)}
+        100%{text-shadow:0 0 20px rgba(212,175,55,.35)}
+      }
+      #preloader.hide{opacity:0; transition:opacity .6s ease}
+
+      /* Header */
+      header{
+        position:fixed; top:0; left:0; right:0; height:64px;
+        display:flex; align-items:center; justify-content:space-between;
+        padding:.5rem 1.5rem;
+        background:rgba(0,0,0,.82); backdrop-filter:blur(8px);
+        box-shadow:var(--shadow); z-index:10;
+      }
+      .logo-link{display:flex; align-items:center; text-decoration:none}
+      .logo-link img{
+        height:40px; width:auto;
+        opacity:0; transform:translateX(-8px);
+        transition:opacity .8s ease, transform .8s ease;
+      }
+      .logo-link.loaded img{opacity:1; transform:translateX(0)}
+      nav{
+        display:flex; gap:.25rem; flex-wrap:nowrap;
+        overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+      }
+      nav::-webkit-scrollbar{display:none}
+      nav a{
+        color:var(--text); text-decoration:none;
+        padding:.5rem .75rem; margin:0 .25rem;
+        white-space:nowrap; position:relative; font-weight:500; opacity:.9;
+      }
+      nav a::after{
+        content:""; position:absolute; left:.75rem; right:.75rem; bottom:.35rem; height:2px;
+        background:linear-gradient(90deg,transparent,var(--gold),transparent);
+        transform:scaleX(0); transform-origin:left; transition:transform .5s ease;
+      }
+      nav a:hover::after{transform:scaleX(1)}
+
+      main{padding-top:64px}
+      section{
+        min-height:100svh; display:grid; place-items:center; text-align:center;
+        padding:6rem 1.5rem; scroll-margin-top:72px;
+      }
+      h2{font-size:2.2rem; margin:0 0 1rem; color:var(--gold)}
+      p{max-width:760px; line-height:1.65; color:var(--muted); margin:0}
+
+      /* Hero */
+      #home{padding-top:7rem}
+      #home .hero{display:grid; gap:2rem; justify-items:center}
+      #home .hero img{
+        width:clamp(220px,45vw,520px); height:auto; display:block; opacity:0;
+        filter:drop-shadow(0 0 0 rgba(212,175,55,0));
+        transition:opacity 1.2s ease, filter 2s ease;
+      }
+      #home .tagline{color:#ccc; font-size:1.15rem}
+
+      /* Grids */
+      #skills .grid, #projects .cards{
+        display:grid; gap:1rem; width:min(900px,92vw);
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); margin-top:2rem;
+      }
+      .skill, .card{
+        background:var(--tile); border-radius:14px; padding:1.25rem 1rem;
+        box-shadow:0 6px 20px rgba(0,0,0,.35);
+        transition:all .4s ease; outline:1px solid rgba(212,175,55,.06);
+        cursor:pointer; overflow:hidden; position:relative;
+      }
+      .skill:hover, .card:hover{
+        transform:translateY(-4px);
+        box-shadow:0 14px 30px rgba(212,175,55,.12);
+        outline-color:rgba(212,175,55,.25);
+      }
+      .skill h3, .card h3{margin:0; color:var(--gold)}
+      .details{
+        max-height:0; overflow:hidden; opacity:0;
+        transition:max-height .6s ease, opacity .6s ease; padding-top:.5rem;
+      }
+      .expanded .details{max-height:220px; opacity:1}
+
+      /* Reveal animations */
+      .reveal{opacity:0; transform:translateY(18px); transition:opacity .9s ease, transform .9s ease}
+      .reveal.visible{opacity:1; transform:translateY(0)}
+
+      /* Back to top */
+      #backTop{
+        position:fixed; bottom:1.5rem; right:1.5rem; width:46px; height:46px;
+        background:var(--gold); color:#000; border:none; border-radius:50%; font-size:22px; cursor:pointer;
+        box-shadow:0 4px 14px rgba(212,175,55,.3);
+        display:flex; align-items:center; justify-content:center;
+        opacity:0; pointer-events:none; transition:opacity .5s ease, transform .3s ease; z-index:50;
+      }
+      #backTop.show{opacity:.95; pointer-events:auto; transform:translateY(0)}
+      #backTop:hover{transform:translateY(-4px); opacity:1}
+
+      /* Custom gold cursor (desktop only) */
+      #cursorDot{
+        position:fixed; top:0; left:0; width:8px; height:8px; border-radius:50%;
+        background:var(--gold);
+        box-shadow:0 0 12px rgba(212,175,55,.6);
+        pointer-events:none; z-index:200; transform:translate(-50%,-50%) scale(1);
+        transition:opacity .3s ease;
+      }
+
+      @media (max-width:768px){
+        header{justify-content:flex-start; gap:.75rem}
+        nav{flex:1}
+        #cursorDot{display:none} /* hide custom cursor on mobile */
+      }
+      @media (prefers-reduced-motion:reduce){
+        html{scroll-behavior:auto}
+        .reveal{transition:none}
+        .logo-link img, #home .hero img{transition:none}
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Progress bar -->
+    <div id="progress"></div>
+
+    <!-- Preloader -->
+    <div id="preloader" aria-hidden="true">
+      <div class="word">KVL</div>
+    </div>
+
+    <!-- Custom cursor (desktop) -->
+    <div id="cursorDot"></div>
+
+    <header>
+      <a href="https://kvl.app" class="logo-link" aria-label="KVL home">
+        <img src="logo.png" alt="KVL logo" loading="lazy">
+      </a>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home">
+        <div class="hero">
+          <img src="logo.png" alt="KVL gold logo" id="heroLogo">
+          <p class="tagline reveal">Where creativity meets technology — building digital experiences that shine.</p>
+        </div>
+      </section>
+
+      <section id="about" class="reveal">
+        <div>
+          <h2>About Me</h2>
+          <p>I'm a games development graduate passionate about crafting immersive, polished, and artistic experiences. Every project blends creativity, precision, and technical expertise.</p>
+        </div>
+      </section>
+
+      <section id="skills" class="reveal">
+        <div>
+          <h2>Skills</h2>
+          <div class="grid">
+            <div class="skill"><h3>Unity / Unreal Engine</h3><div class="details">Experience creating both 2D and 3D gameplay prototypes and polished levels.</div></div>
+            <div class="skill"><h3>C# / C++ / Python</h3><div class="details">Strong foundation in gameplay scripting, AI systems, and tools programming.</div></div>
+            <div class="skill"><h3>Gameplay Systems</h3><div class="details">Designing responsive combat, camera, and control systems.</div></div>
+            <div class="skill"><h3>UI / UX</h3><div class="details">Creating clean interfaces with smooth transitions and readable layouts.</div></div>
+            <div class="skill"><h3>3D Modelling</h3><div class="details">Proficient with Blender and Substance Painter for asset creation.</div></div>
+            <div class="skill"><h3>Git / Version Control</h3><div class="details">Efficient collaborative workflows using Git and GitHub.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="reveal">
+        <div>
+          <h2>Projects</h2>
+          <div class="cards">
+            <div class="card"><h3>Project One</h3><div class="details">A Unity-based exploration prototype featuring dynamic lighting and puzzle mechanics.</div></div>
+            <div class="card"><h3>Project Two</h3><div class="details">An Unreal Engine demo focused on real-time physics and AI combat behavior.</div></div>
+            <div class="card"><h3>Project Three</h3><div class="details">A concept for a stylized narrative game exploring emotional storytelling.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="reveal">
+        <div>
+          <h2>Contact Me</h2>
+          <p>Let's connect — I'm always open to creative collaborations.</p>
+          <p>Email: <a href="mailto:email@kvl.dev">email@kvl.dev</a></p>
+          <p>Twitter: <a href="https://twitter.com/yourhandle">@yourhandle</a></p>
+          <p>GitHub: <a href="https://github.com/yourusername">github.com/yourusername</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer>© 2025 KVL</footer>
+
+    <!-- Back to top -->
+    <button id="backTop" aria-label="Back to top">↑</button>
+
+    <script>
+      // --- Preloader + initial reveals ---
+      window.addEventListener('load', () => {
+        const pre = document.getElementById('preloader');
+        pre.classList.add('hide');
+        setTimeout(() => pre.remove(), 650);
+
+        document.querySelector('.logo-link')?.classList.add('loaded');
+        const hero = document.getElementById('heroLogo');
+        if (hero) {
+          requestAnimationFrame(() => {
+            hero.style.opacity = '1';
+            hero.style.filter = 'drop-shadow(0 0 18px rgba(212,175,55,.25))';
+          });
+        }
+      });
+
+      // --- IntersectionObserver for elegant reveals ---
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      // --- Expandable skills and projects (click to expand) ---
+      document.querySelectorAll('.skill, .card').forEach(el => {
+        el.addEventListener('click', () => el.classList.toggle('expanded'));
+      });
+
+      // --- Back to top button ---
+      const topBtn = document.getElementById('backTop');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) topBtn.classList.add('show');
+        else topBtn.classList.remove('show');
+      });
+      topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      // --- Scroll progress bar ---
+      const progress = document.getElementById('progress');
+      const updateProgress = () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progress.style.width = pct + '%';
+      };
+      window.addEventListener('scroll', updateProgress);
+      window.addEventListener('resize', updateProgress);
+      updateProgress();
+
+      // --- Custom gold cursor (desktop only) ---
+      const cursor = document.getElementById('cursorDot');
+      let cx = window.innerWidth/2, cy = window.innerHeight/2, tx = cx, ty = cy;
+      const onMouseMove = (e) => { tx = e.clientX; ty = e.clientY; };
+      const animate = () => {
+        cx += (tx - cx) * 0.18;
+        cy += (ty - cy) * 0.18;
+        cursor.style.transform = `translate(${cx}px, ${cy}px)`;
+        requestAnimationFrame(animate);
+      };
+      // Disable on touch devices
+      if (window.matchMedia('(pointer:fine)').matches) {
+        window.addEventListener('mousemove', onMouseMove);
+        animate();
+      } else {
+        cursor.style.display = 'none';
+      }
+    </script>
+  </body>
 </html>

@@ -1,19 +1,17 @@
-# KVL — Dark Gold Themed Website
+# KVL — Polished Site (v2)
 
-A sleek, modern dark theme portfolio featuring your gold KVL logo and white text.
+Includes:
+- Gold shimmering preloader
+- Custom gold cursor (desktop)
+- Scroll progress bar
+- Lazy-loading images
+- Favicon + Open Graph meta
+- Expandable Skills & Projects
+- Dark–gold theme, smooth animations
 
-## Features
-- Black and dark grey background
-- Gold accents and logo
-- Responsive mobile design
-- Scrollable navbar on mobile
-- Smooth animations
-- GitHub Pages–ready
+## How to use
+1. Place your **logo file** in the repo root named exactly `logo.png` (lowercase).
+2. Upload `index.html`, `.nojekyll`, and `logo.png` to your GitHub repo (root).
+3. Enable **GitHub Pages** → Deploy from branch → `main` → `/ (root)`.
 
-## Files
-- `index.html`
-- `logo.png` (your gold KVL logo)
-- `.nojekyll`
-- `README.md`
-
-Upload to your GitHub repo root and enable Pages for deployment.
+Tip: Replace placeholder text inside the Skills/Projects “details” blocks with your own.
