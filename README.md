@@ -1,17 +1,28 @@
-# KVL — Polished Site (v2)
+# KVL — Social Edition (v3)
 
-Includes:
-- Gold shimmering preloader
-- Custom gold cursor (desktop)
-- Scroll progress bar
-- Lazy-loading images
-- Favicon + Open Graph meta
-- Expandable Skills & Projects
-- Dark–gold theme, smooth animations
+This build includes:
+- Shimmering KVL preloader
+- Gold cursor (desktop), scroll progress bar
+- Expandable Skills & Projects (click to expand)
+- Dark–gold theme with smooth reveals
+- **Two neat rows of social icons** (white → gold glow): GitHub, Itch.io, LinkedIn, Twitter/X, Instagram, TikTok, Facebook, YouTube
 
-## How to use
-1. Place your **logo file** in the repo root named exactly `logo.png` (lowercase).
-2. Upload `index.html`, `.nojekyll`, and `logo.png` to your GitHub repo (root).
-3. Enable **GitHub Pages** → Deploy from branch → `main` → `/ (root)`.
+## Replace links
+Edit the `href` values in the Contact section:
+```
+https://github.com/yourusername
+https://yourname.itch.io
+https://linkedin.com/in/yourname
+https://twitter.com/yourhandle
+https://instagram.com/yourhandle
+https://tiktok.com/@yourhandle
+https://facebook.com/yourhandle
+https://youtube.com/@yourhandle
+```
 
-Tip: Replace placeholder text inside the Skills/Projects “details” blocks with your own.
+## Setup
+1. Put your **logo** in the repo root named **`logo.png`** (lowercase).
+2. Upload `index.html`, `.nojekyll`, and `logo.png` to your repo root.
+3. Enable GitHub Pages → Deploy from branch → `main` → `/ (root)`.
+
+Enjoy!
