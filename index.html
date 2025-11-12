@@ -210,10 +210,7 @@
     <!-- Progress bar -->
     <div id="progress"></div>
 
-    <!-- Preloader -->
-    <div id="preloader" aria-hidden="true">
-      <div class="word">KVL</div>
-    </div>
+    
 
     <!-- Custom cursor (desktop) -->
     <div id="cursorDot"></div>
@@ -319,22 +316,6 @@
     <button id="backTop" aria-label="Back to top">↑</button>
 
     <script>
-      // --- Preloader ---
-      window.addEventListener('load', () => {
-        const pre = document.getElementById('preloader');
-        pre.classList.add('hide');
-        setTimeout(() => pre.remove(), 650);
-
-        document.querySelector('.logo-link')?.classList.add('loaded');
-        const hero = document.getElementById('heroLogo');
-        if (hero) {
-          requestAnimationFrame(() => {
-            hero.style.opacity = '1';
-            hero.style.filter = 'drop-shadow(0 0 18px rgba(212,175,55,.25))';
-          });
-        }
-      });
-
       // --- IntersectionObserver for reveals ---
       const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
