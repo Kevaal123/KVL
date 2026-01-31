@@ -1,161 +1,591 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Jay Ambe Kitchen</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jay Ambe Kitchen</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #fffaf3;
-            color: #333;
-        }
+  <style>
+    :root{
+      --brand:#c0392b;
+      --brand2:#ff6a00;
+      --dark:#141414;
+      --text:#1f1f1f;
+      --muted:#6b6b6b;
+      --bg:#fff7ee;
+      --card:#ffffff;
+      --ring: rgba(255,106,0,.25);
+    }
 
-        /* Header */
-        header {
-            background-color: #c0392b;
-            color: white;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 400px at 10% 0%, rgba(255,106,0,.15), transparent 55%),
+        radial-gradient(900px 300px at 90% 10%, rgba(192,57,43,.18), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
 
-        .brand {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
+    /* ---------- FLOAT BASE LAYOUT HELPERS ---------- */
+    .container{
+      max-width:1150px;
+      margin:0 auto;
+      padding:0 18px;
+    }
+    .clearfix::after{
+      content:"";
+      display:block;
+      clear:both;
+    }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: 500;
-        }
+    /* ---------- HEADER (FLOATS) ---------- */
+    header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      padding:14px 0;
+      background: rgba(20,20,20,.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .brand{
+      float:left;
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.6px;
+      font-size:22px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .brand-badge{
+      width:36px;
+      height:36px;
+      border-radius:12px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      display:inline-block;
+    }
+    nav{
+      float:right;
+      margin-top:6px;
+    }
+    nav a{
+      color: rgba(255,255,255,.92);
+      text-decoration:none;
+      font-weight:600;
+      margin-left:18px;
+      padding:8px 10px;
+      border-radius:10px;
+      transition: .2s ease;
+    }
+    nav a:hover{
+      background: rgba(255,255,255,.08);
+      transform: translateY(-1px);
+    }
 
-        nav a:hover {
-            text-decoration: underline;
-        }
+    /* ---------- HERO ---------- */
+    .hero{
+      position:relative;
+      padding:88px 0 60px;
+      overflow:hidden;
+    }
+    .hero-bg{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.68), rgba(0,0,0,.25)),
+        url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1800&q=80");
+      background-size:cover;
+      background-position:center;
+      filter:saturate(1.1);
+      transform: scale(1.03);
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(600px 200px at 20% 20%, rgba(255,106,0,.35), transparent 55%),
+        radial-gradient(600px 200px at 80% 30%, rgba(192,57,43,.35), transparent 55%);
+      mix-blend-mode: screen;
+      pointer-events:none;
+    }
+    .hero-content{
+      position:relative;
+      color:#fff;
+      padding:34px 0;
+    }
+    .tagline{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      font-weight:600;
+      font-size:13px;
+      letter-spacing:.3px;
+    }
+    .hero h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 4vw, 58px);
+      line-height:1.05;
+      letter-spacing:-.6px;
+    }
+    .hero p{
+      margin:0 0 18px;
+      font-size: clamp(16px, 2vw, 20px);
+      color: rgba(255,255,255,.88);
+      max-width: 700px;
+    }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-                        url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092');
-            background-size: cover;
-            background-position: center;
-            color: white;
-        }
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+    .btn{
+      display:inline-block;
+      padding:12px 16px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:700;
+      transition:.18s ease;
+      border:1px solid transparent;
+      box-shadow: 0 18px 40px rgba(0,0,0,.28);
+    }
+    .btn-primary{
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color:#fff;
+    }
+    .btn-primary:hover{ transform: translateY(-2px); }
+    .btn-ghost{
+      background: rgba(255,255,255,.10);
+      color:#fff;
+      border-color: rgba(255,255,255,.22);
+      box-shadow:none;
+    }
+    .btn-ghost:hover{ background: rgba(255,255,255,.16); }
 
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
+    /* ---------- SECTION ---------- */
+    section{
+      padding:60px 0;
+    }
+    .section-title{
+      text-align:center;
+      margin:0 0 12px;
+      font-size: 30px;
+      letter-spacing:-.4px;
+      color: var(--brand);
+    }
+    .section-sub{
+      text-align:center;
+      margin:0 auto 34px;
+      max-width:780px;
+      color: var(--muted);
+    }
 
-        .hero p {
-            font-size: 20px;
-        }
+    /* ---------- FLOAT 2-COLUMN ABOUT ---------- */
+    .about-wrap{
+      background: rgba(255,255,255,.55);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:22px;
+      padding:22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.08);
+    }
+    .about-left{
+      float:left;
+      width:58%;
+      padding:10px 16px 10px 10px;
+    }
+    .about-right{
+      float:right;
+      width:42%;
+      padding:10px 10px 10px 16px;
+    }
+    .about-card{
+      background: var(--card);
+      border-radius:18px;
+      padding:18px;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow: 0 16px 34px rgba(0,0,0,.08);
+    }
+    .kpis{
+      margin-top:12px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .kpi{
+      flex:1 1 130px;
+      background: linear-gradient(180deg, rgba(255,106,0,.10), rgba(192,57,43,.08));
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:16px;
+      padding:12px;
+    }
+    .kpi strong{
+      display:block;
+      font-size:18px;
+    }
+    .kpi span{
+      color: var(--muted);
+      font-size:13px;
+      font-weight:600;
+    }
 
-        /* Sections */
-        section {
-            padding: 60px 20px;
-            max-width: 1100px;
-            margin: auto;
-        }
+    /* ---------- MENU GRID (MODERN) ---------- */
+    .menu-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:18px;
+    }
+    .menu-card{
+      background: rgba(255,255,255,.85);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:20px;
+      padding:18px;
+      box-shadow: 0 18px 44px rgba(0,0,0,.08);
+      transition: .18s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .menu-card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(200px 120px at 20% 10%, rgba(255,106,0,.22), transparent 60%),
+                  radial-gradient(200px 120px at 80% 20%, rgba(192,57,43,.18), transparent 60%);
+      opacity:.85;
+      pointer-events:none;
+    }
+    .menu-card:hover{
+      transform: translateY(-4px);
+      box-shadow: 0 26px 70px rgba(0,0,0,.12);
+      border-color: rgba(255,106,0,.25);
+    }
+    .menu-card h3{
+      position:relative;
+      margin:0 0 6px;
+      font-size:18px;
+    }
+    .menu-card p{
+      position:relative;
+      margin:0 0 10px;
+      color: var(--muted);
+      font-weight:600;
+    }
+    .price-row{
+      position:relative;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:8px;
+      font-weight:800;
+    }
+    .pill{
+      font-size:12px;
+      font-weight:800;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.65);
+    }
 
-        section h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #c0392b;
-        }
+    /* ---------- HIGHLIGHTS ---------- */
+    .highlights{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+    .highlight{
+      background: rgba(20,20,20,.92);
+      color:#fff;
+      border-radius:18px;
+      padding:16px;
+      box-shadow: 0 16px 44px rgba(0,0,0,.12);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .highlight h4{
+      margin:0 0 6px;
+      letter-spacing:-.2px;
+    }
+    .highlight p{
+      margin:0;
+      color: rgba(255,255,255,.78);
+      font-weight:600;
+    }
 
-        /* Menu */
-        .menu-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
+    /* ---------- CONTACT (FLOATS) ---------- */
+    .contact-wrap{
+      background: rgba(255,255,255,.70);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:22px;
+      padding:22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.08);
+    }
+    .contact-left{
+      float:left;
+      width:52%;
+      padding:10px 16px 10px 10px;
+    }
+    .contact-right{
+      float:right;
+      width:48%;
+      padding:10px 10px 10px 16px;
+    }
+    .contact-list{
+      margin:0;
+      padding:0;
+      list-style:none;
+      font-weight:700;
+    }
+    .contact-list li{
+      margin:10px 0;
+      color: var(--text);
+    }
+    .small{
+      color: var(--muted);
+      font-weight:600;
+      font-size:14px;
+    }
+    .map-placeholder{
+      border-radius:18px;
+      min-height:180px;
+      background:
+        linear-gradient(135deg, rgba(255,106,0,.12), rgba(192,57,43,.12)),
+        repeating-linear-gradient(45deg, rgba(0,0,0,.06) 0 10px, transparent 10px 20px);
+      border:1px solid rgba(0,0,0,.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:14px;
+      color: var(--muted);
+      font-weight:800;
+    }
 
-        .menu-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+    /* ---------- FOOTER ---------- */
+    footer{
+      background: #101010;
+      color: rgba(255,255,255,.78);
+      text-align:center;
+      padding:26px 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
 
-        .menu-card h3 {
-            margin-top: 0;
-        }
+    /* ---------- FLOAT RESPONSIVE ---------- */
+    @media (max-width: 900px){
+      nav{ float:none; text-align:center; margin-top:10px; }
+      .brand{ float:none; justify-content:center; }
+      .about-left, .about-right, .contact-left, .contact-right{
+        float:none;
+        width:100%;
+        padding:10px;
+      }
+    }
 
-        /* Footer */
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-    </style>
+    /* ---------- FLOATING WHATSAPP BUTTON ---------- */
+    .fab{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:9999;
+      background: linear-gradient(135deg, #25D366, #1DB954);
+      color:white;
+      border-radius: 16px;
+      padding:12px 14px;
+      font-weight:900;
+      text-decoration:none;
+      box-shadow: 0 18px 50px rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.18);
+      transition:.18s ease;
+    }
+    .fab:hover{ transform: translateY(-2px); }
+  </style>
 </head>
 
 <body>
 
 <header>
-    <div class="brand">Jay Ambe Kitchen</div>
+  <div class="container clearfix">
+    <div class="brand">
+      <span class="brand-badge"></span>
+      Jay Ambe Kitchen
+    </div>
+
     <nav>
-        <a href="#about">About</a>
-        <a href="#menu">Menu</a>
-        <a href="#contact">Contact</a>
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#contact">Contact</a>
     </nav>
+  </div>
 </header>
 
+<!-- HERO -->
 <div class="hero">
+  <div class="hero-bg"></div>
+  <div class="container hero-content">
+    <span class="tagline">Fresh • Hygienic • Home-Style Indian Food</span>
     <h1>Welcome to Jay Ambe Kitchen</h1>
-    <p>Delicious Home-Style Food Made With Love</p>
+    <p>
+      Delicious home-style meals made with love — authentic taste, quality ingredients,
+      and consistent flavour every day.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#menu">Explore Menu</a>
+      <a class="btn btn-ghost" href="#contact">Order / Contact</a>
+    </div>
+  </div>
 </div>
 
+<!-- ABOUT -->
 <section id="about">
-    <h2>About Us</h2>
-    <p style="text-align:center;">
-        Jay Ambe Kitchen serves fresh, hygienic, and flavorful meals inspired by
-        traditional Indian home cooking. We believe in quality ingredients,
-        authentic taste, and customer satisfaction.
+  <div class="container">
+    <h2 class="section-title">About Us</h2>
+    <p class="section-sub">
+      Jay Ambe Kitchen serves fresh, hygienic, and flavorful meals inspired by traditional
+      Indian home cooking. Authentic taste, quality ingredients, and customer satisfaction.
     </p>
-</section>
 
-<section id="menu">
-    <h2>Our Menu</h2>
-    <div class="menu-items">
-        <div class="menu-card">
-            <h3>Veg Thali</h3>
-            <p>Roti, Sabzi, Dal, Rice & Salad</p>
+    <div class="about-wrap clearfix">
+      <div class="about-left">
+        <div class="about-card">
+          <h3 style="margin:0 0 8px;">Why people love us</h3>
+          <p style="margin:0;color:var(--muted);font-weight:650;">
+            We keep it simple: clean kitchen standards, consistent taste, and proper portions.
+            Perfect for daily meals, thalis, and comfort food cravings.
+          </p>
+
+          <div class="kpis">
+            <div class="kpi">
+              <strong>Home-Style</strong>
+              <span>Authentic flavours</span>
+            </div>
+            <div class="kpi">
+              <strong>Fresh Daily</strong>
+              <span>Cooked in batches</span>
+            </div>
+            <div class="kpi">
+              <strong>Hygienic</strong>
+              <span>Clean & safe prep</span>
+            </div>
+          </div>
         </div>
-        <div class="menu-card">
-            <h3>Paneer Special</h3>
-            <p>Rich & creamy paneer dishes</p>
+      </div>
+
+      <div class="about-right">
+        <div class="highlights">
+          <div class="highlight">
+            <h4>Fast Pickup</h4>
+            <p>Quick grab & go meals</p>
+          </div>
+          <div class="highlight">
+            <h4>Party Orders</h4>
+            <p>Bulk orders for events</p>
+          </div>
+          <div class="highlight">
+            <h4>Custom Spice</h4>
+            <p>Mild / Medium / Spicy</p>
+          </div>
         </div>
-        <div class="menu-card">
-            <h3>Dal & Rice</h3>
-            <p>Comfort food made fresh daily</p>
-        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<section id="contact">
-    <h2>Contact Us</h2>
-    <p style="text-align:center;">
-        📍 Location: Your City<br>
-        📞 Phone: +91 00000 00000<br>
-        📧 Email: jayambekitchen@email.com
+<!-- MENU -->
+<section id="menu">
+  <div class="container">
+    <h2 class="section-title">Our Menu</h2>
+    <p class="section-sub">
+      Popular picks. (You can add prices/images later — the design is ready.)
     </p>
+
+    <div class="menu-grid">
+      <div class="menu-card">
+        <h3>Veg Thali</h3>
+        <p>Roti, Sabzi, Dal, Rice & Salad</p>
+        <div class="price-row">
+          <span class="pill">Best Seller</span>
+          <span>₹ —</span>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <h3>Paneer Special</h3>
+        <p>Rich & creamy paneer dishes</p>
+        <div class="price-row">
+          <span class="pill">Chef’s Pick</span>
+          <span>₹ —</span>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <h3>Dal & Rice</h3>
+        <p>Comfort food made fresh daily</p>
+        <div class="price-row">
+          <span class="pill">Everyday</span>
+          <span>₹ —</span>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <h3>Roti / Paratha</h3>
+        <p>Soft, hot & fresh</p>
+        <div class="price-row">
+          <span class="pill">Hot</span>
+          <span>₹ —</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <h2 class="section-title">Contact Us</h2>
+    <p class="section-sub">Order, bulk enquiries, or location info — message/call anytime.</p>
+
+    <div class="contact-wrap clearfix">
+      <div class="contact-left">
+        <div class="about-card">
+          <h3 style="margin:0 0 10px;">Get in touch</h3>
+          <ul class="contact-list">
+            <li>📍 <span class="small">Location:</span> Your City</li>
+            <li>📞 <span class="small">Phone:</span> +91 00000 00000</li>
+            <li>📧 <span class="small">Email:</span> jayambekitchen@email.com</li>
+            <li>🕒 <span class="small">Hours:</span> 11:00 AM – 10:00 PM</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="contact-right">
+        <div class="map-placeholder">
+          Add Google Map embed here<br/>
+          (or your exact address)
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer>
-    <p>© 2026 Jay Ambe Kitchen. All Rights Reserved.</p>
+  <p style="margin:0;">© 2026 Jay Ambe Kitchen. All Rights Reserved.</p>
 </footer>
+
+<!-- Floating WhatsApp Button (change number) -->
+<a class="fab" href="https://wa.me/910000000000" target="_blank" rel="noopener">
+  WhatsApp Order
+</a>
 
 </body>
 </html>
