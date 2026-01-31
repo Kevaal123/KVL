@@ -1,420 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>KVL</title>
-    <meta name="description" content="KVL — Games Development Portfolio" />
-    <meta property="og:title" content="KVL — Portfolio" />
-    <meta property="og:description" content="Dark–gold interactive portfolio: projects, skills, and contact." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="logo.png" />
-    <link rel="icon" type="image/png" href="logo.png" />
+<head>
+    <meta charset="UTF-8">
+    <title>Jay Ambe Kitchen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-      :root{
-        --bg1:#000; --bg2:#121212;
-        --text:#fff; --muted:#ddd; --muter:#bbb;
-        --gold:#d4af37; --tile:#191919;
-        --shadow:0 2px 8px rgba(0,0,0,.5);
-      }
-      *{box-sizing:border-box}
-      html{scroll-behavior:smooth}
-      body{
-        margin:0;
-        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-        background:linear-gradient(180deg,var(--bg1),var(--bg2));
-        color:var(--text);
-      }
-
-      /* Cinematic parallax gold background layer */
-      #parallaxBG{
-        position:fixed; inset:0; z-index:-1;
-        background:
-          radial-gradient(600px at var(--gx,50%) var(--gy,30%),
-            rgba(212,175,55,.28), transparent 60%),
-          radial-gradient(1000px at calc((var(--gx,50%))*0.6) calc((var(--gy,30%))*0.85),
-            rgba(212,175,55,.12), transparent 60%),
-          linear-gradient(180deg,var(--bg1),var(--bg2));
-        will-change: background-position;
-        transition: background-position .2s ease-out;
-      }
-
-      /* Progress bar */
-      #progress{
-        position:fixed; top:0; left:0; height:3px; width:0;
-        background:var(--gold); z-index:100;
-        box-shadow:0 0 10px rgba(212,175,55,.5);
-      }
-
-      /* Preloader */
-      #preloader{
-        position:fixed; inset:0; background:#000;
-        display:grid; place-items:center; z-index:999;
-      }
-      #preloader .word{
-        font-size:clamp(40px,8vw,96px);
-        letter-spacing:.18em; color:var(--gold);
-        opacity:0; transform:translateY(10px);
-        animation:kvlin 1200ms ease forwards, kvlglow 2200ms ease 400ms 1 forwards;
-      }
-      @keyframes kvlin{to{opacity:1; transform:translateY(0)}}
-      @keyframes kvlglow{
-        0%{text-shadow:0 0 0 rgba(212,175,55,0)}
-        100%{text-shadow:0 0 22px rgba(212,175,55,.35)}
-      }
-      #preloader.hide{opacity:0; transition:opacity .6s ease}
-
-      /* Header */
-      header{
-        position:fixed; top:0; left:0; right:0; height:64px;
-        display:flex; align-items:center; justify-content:space-between;
-        padding:.5rem 1.5rem;
-        background:rgba(0,0,0,.82); backdrop-filter:blur(8px);
-        box-shadow:var(--shadow); z-index:10;
-      }
-      .logo-link{display:flex; align-items:center; text-decoration:none}
-      .logo-link img{
-        height:40px; width:auto;
-        opacity:0; transform:translateX(-8px);
-        transition:opacity .8s ease, transform .8s ease;
-      }
-      .logo-link.loaded img{opacity:1; transform:translateX(0)}
-      nav{
-        display:flex; gap:.25rem; flex-wrap:nowrap;
-        overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
-      }
-      nav::-webkit-scrollbar{display:none}
-      nav a{
-        color:var(--text); text-decoration:none;
-        padding:.5rem .75rem; margin:0 .25rem;
-        white-space:nowrap; position:relative; font-weight:500; opacity:.9;
-      }
-      nav a::after{
-        content:""; position:absolute; left:.75rem; right:.75rem; bottom:.35rem; height:2px;
-        background:linear-gradient(90deg,transparent,var(--gold),transparent);
-        transform:scaleX(0); transform-origin:left; transition:transform .5s ease;
-      }
-      nav a:hover::after{transform:scaleX(1)}
-
-      main{padding-top:64px}
-      section{
-        min-height:84svh; /* less floating on desktop */
-        display:grid; place-items:center; text-align:center;
-        padding:4rem 1.5rem; scroll-margin-top:72px;
-      }
-      h2{
-        font-size:clamp(1.6rem, 1.5rem + 1.2vw, 2.6rem);
-        margin:0 0 1rem; color:var(--gold);
-        text-transform:uppercase; letter-spacing:.12em;
-      }
-      p{max-width:1000px; line-height:1.7; color:var(--muted); margin:0}
-
-      /* Hero */
-      #home{padding-top:7rem; min-height:92svh}
-      #home .hero{display:grid; gap:2rem; justify-items:center}
-      #home .hero img{
-        width:clamp(240px,42vw,480px); height:auto; display:block; opacity:0;
-        filter:drop-shadow(0 0 0 rgba(212,175,55,0));
-        transition:opacity 1.2s ease, filter 2s ease;
-      }
-      #home .tagline{color:#ccc; font-size:clamp(1.05rem, .9rem + .5vw, 1.35rem)}
-
-      /* Grids */
-      #skills .grid, #projects .cards{
-        display:grid; gap:1rem; width:min(1000px,92vw);
-        grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); margin-top:2rem;
-      }
-      .skill, .card{
-        background:var(--tile); border-radius:14px; padding:1.25rem 1rem;
-        box-shadow:0 6px 20px rgba(0,0,0,.35);
-        transition:all .4s ease; outline:1px solid rgba(212,175,55,.06);
-        cursor:pointer; overflow:hidden; position:relative;
-      }
-      .skill:hover, .card:hover{
-        transform:translateY(-4px);
-        box-shadow:0 14px 30px rgba(212,175,55,.12);
-        outline-color:rgba(212,175,55,.25);
-      }
-      .skill h3, .card h3{margin:0; color:var(--gold); text-transform:uppercase; letter-spacing:.08em}
-      .details{
-        max-height:0; overflow:hidden; opacity:0;
-        transition:max-height .6s ease, opacity .6s ease; padding-top:.5rem;
-      }
-      .expanded .details{max-height:240px; opacity:1}
-
-      /* Reveal animations */
-      .reveal{opacity:0; transform:translateY(18px); transition:opacity .9s ease, transform .9s ease}
-      .reveal.visible{opacity:1; transform:translateY(0)}
-
-      /* Back to top */
-      #backTop{
-        position:fixed; bottom:1.5rem; right:1.5rem; width:46px; height:46px;
-        background:var(--gold); color:#000; border:none; border-radius:50%; font-size:22px; cursor:pointer;
-        box-shadow:0 4px 14px rgba(212,175,55,.3);
-        display:flex; align-items:center; justify-content:center;
-        opacity:0; pointer-events:none; transition:opacity .5s ease, transform .3s ease; z-index:50;
-      }
-      #backTop.show{opacity:.95; pointer-events:auto; transform:translateY(0)}
-      #backTop:hover{transform:translateY(-4px); opacity:1}
-
-      /* Social icons grid (two neat rows) */
-      .social-grid{
-        display:grid; gap:18px;
-        grid-template-columns:repeat(4, 48px);
-        justify-content:center; align-items:center;
-        margin-top:22px;
-      }
-      .social-grid a{
-        width:48px; height:48px; display:grid; place-items:center;
-        color:#fff; text-decoration:none; border-radius:10px;
-        transition:transform .25s ease, color .25s ease, filter .25s ease;
-      }
-      .social-grid a:hover{
-        color:var(--gold);
-        transform:translateY(-4px) scale(1.05);
-        filter:drop-shadow(0 0 10px rgba(212,175,55,.35));
-      }
-      .social-grid svg{width:26px; height:26px; display:block}
-
-      @media (max-width:520px){
-        .social-grid{grid-template-columns:repeat(4, 48px); gap:16px}
-      }
-
-      /* Custom gold cursor (desktop only) */
-      #cursorDot{
-        position:fixed; top:0; left:0; width:8px; height:8px; border-radius:50%;
-        background:var(--gold);
-        box-shadow:0 0 12px rgba(212,175,55,.6);
-        pointer-events:none; z-index:200; transform:translate(-50%,-50%) scale(1);
-        transition:opacity .3s ease;
-      }
-
-      @media (max-width:768px){
-        header{justify-content:flex-start; gap:.75rem}
-        nav{flex:1}
-        #cursorDot{display:none}
-        section{min-height:92svh; padding:5rem 1.25rem}
-      }
-      @media (prefers-reduced-motion:reduce){
-        html{scroll-behavior:auto}
-        .reveal{transition:none}
-        .logo-link img, #home .hero img{transition:none}
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Parallax gradient layer -->
-    <div id="parallaxBG"></div>
-
-    <!-- Progress bar -->
-    <div id="progress"></div>
-
-    <!-- Preloader -->
-    <div id="preloader" aria-hidden="true">
-      <div class="word">KVL</div>
-    </div>
-
-    <!-- Custom cursor (desktop) -->
-    <div id="cursorDot"></div>
-
-    <header>
-      <a href="https://kvl.app" class="logo-link" aria-label="KVL home">
-        <img src="logo.png" alt="KVL logo" loading="lazy">
-      </a>
-      <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
-
-    <main>
-      <section id="home">
-        <div class="hero">
-          <img src="logo.png" alt="KVL gold logo" id="heroLogo">
-          <p class="tagline reveal">Where creativity meets technology — building digital experiences that shine.</p>
-        </div>
-      </section>
-
-      <section id="about" class="reveal">
-        <div>
-          <h2>About Me</h2>
-          <p>I'm a games development graduate passionate about crafting immersive, polished, and artistic experiences. Every project blends creativity, precision, and technical expertise.</p>
-        </div>
-      </section>
-
-      <section id="skills" class="reveal">
-        <div>
-          <h2>Skills</h2>
-          <div class="grid">
-            <div class="skill"><h3>Unity / Unreal Engine</h3><div class="details">Experience creating both 2D and 3D gameplay prototypes and polished levels.</div></div>
-            <div class="skill"><h3>C# / C++ / Python</h3><div class="details">Strong foundation in gameplay scripting, AI systems, and tools programming.</div></div>
-            <div class="skill"><h3>Gameplay Systems</h3><div class="details">Designing responsive combat, camera, and control systems.</div></div>
-            <div class="skill"><h3>UI / UX</h3><div class="details">Creating clean interfaces with smooth transitions and readable layouts.</div></div>
-            <div class="skill"><h3>3D Modelling</h3><div class="details">Proficient with Blender and Substance Painter for asset creation.</div></div>
-            <div class="skill"><h3>Git / Version Control</h3><div class="details">Efficient collaborative workflows using Git and GitHub.</div></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="projects" class="reveal">
-        <div>
-          <h2>Projects</h2>
-          <div class="cards">
-            <div class="card"><h3>Project One</h3><div class="details">A Unity-based exploration prototype featuring dynamic lighting and puzzle mechanics.</div></div>
-            <div class="card"><h3>Project Two</h3><div class="details">An Unreal Engine demo focused on real-time physics and AI combat behavior.</div></div>
-            <div class="card"><h3>Project Three</h3><div class="details">A concept for a stylized narrative game exploring emotional storytelling.</div></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" class="reveal">
-        <div>
-          <h2>Contact Me</h2>
-          <p>Let's connect — I'm always open to creative collaborations.</p>
-
-          <!-- Social icons: two neat rows -->
-          <div class="social-grid" role="list" aria-label="Social links">
-            <!-- Row 1 -->
-            <a href="https://github.com/yourusername" target="_blank" aria-label="GitHub" title="GitHub">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.35-1.76-1.35-1.76-1.1-.75.08-.74.08-.74 1.22.09 1.86 1.25 1.86 1.25 1.08 1.86 2.83 1.33 3.52 1.02.11-.79.42-1.33.76-1.63-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.62-2.8 5.65-5.48 5.95.43.37.81 1.11.81 2.25v3.34c0 .32.21.69.83.58A" />
-              </svg>
-            </a>
-            <a href="https://yourname.itch.io" target="_blank" aria-label="Itch.io" title="Itch.io">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M2 7.5 5.5 4h13L22 7.5V18a2 2 0 0 1-2 2h-3.2l-.8-2.5h-8L7.2 20H4a2 2 0 0 1-2-2V7.5zm7.5.5h5L16 12l-1.5 4h-5L8 12l1.5-4z"/>
-              </svg>
-            </a>
-            <a href="https://linkedin.com/in/yourname" target="_blank" aria-label="LinkedIn" title="LinkedIn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0zM8 8h4.8v2.2h.07c.67-1.2 2.3-2.46 4.73-2.46C21.4 7.74 24 10 24 14.2V24h-5v-8.6c0-2.05-.04-4.7-2.86-4.7-2.86 0-3.3 2.24-3.3 4.55V24H8z"/></svg>
-            </a>
-            <a href="https://twitter.com/yourhandle" target="_blank" aria-label="Twitter/X" title="Twitter/X">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.25 2H21l-6.5 7.43L22 22h-6.5l-5.1-6.66L4.6 22H2l7-8L2 2h6.5l4.66 6.16L18.25 2Zm-1.14 18h1.77L7.01 4H5.17l11.94 16Z"/></svg>
-            </a>
-            <!-- Row 2 -->
-            <a href="https://instagram.com/yourhandle" target="_blank" aria-label="Instagram" title="Instagram">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a5.5 5.5 0 1 1 0 11a5.5 5.5 0 0 1 0-11Zm0 2a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7Zm5.75-2.25a1.25 1.25 0 1 1 0 2.5a1.25 1.25 0 0 1 0-2.5Z"/></svg>
-            </a>
-            <a href="https://tiktok.com/@yourhandle" target="_blank" aria-label="TikTok" title="TikTok">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 8.5a8.5 8.5 0 0 1-5-1.64V16a5.5 5.5 0 1 1-5.5-5.5c.17 0 .34 0 .5.03V13a2.5 2.5 0 1 0 2.5 2.5V2h3a5.5 5.5 0 0 0 4.5 4.5V8.5Z"/></svg>
-            </a>
-            <a href="https://facebook.com/yourhandle" target="_blank" aria-label="Facebook" title="Facebook">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h3l1-4h-4V7.5c0-1.16.32-1.95 2-1.95H17V2.14C16.65 2.1 15.56 2 14.31 2 11.64 2 10 3.66 10 6.7V10H7v4h3v8h3Z"/></svg>
-            </a>
-            <a href="https://youtube.com/@yourhandle" target="_blank" aria-label="YouTube" title="YouTube">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8 0 12 0 12s0 4 .5 5.8a3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 16 24 12 24 12s0-4-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg>
-            </a>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>© 2025 KVL</footer>
-
-    <!-- Back to top -->
-    <button id="backTop" aria-label="Back to top">↑</button>
-
-    <script>
-      // --- Preloader ---
-      window.addEventListener('load', () => {
-        const pre = document.getElementById('preloader');
-        pre.classList.add('hide');
-        setTimeout(() => pre.remove(), 650);
-
-        document.querySelector('.logo-link')?.classList.add('loaded');
-        const hero = document.getElementById('heroLogo');
-        if (hero) {
-          requestAnimationFrame(() => {
-            hero.style.opacity = '1';
-            hero.style.filter = 'drop-shadow(0 0 18px rgba(212,175,55,.25))';
-          });
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fffaf3;
+            color: #333;
         }
-      });
 
-      // --- IntersectionObserver for reveals ---
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.15 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+        /* Header */
+        header {
+            background-color: #c0392b;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-      // --- Expandable cards (skills / projects) ---
-      document.querySelectorAll('.skill, .card').forEach(el => {
-        el.addEventListener('click', () => el.classList.toggle('expanded'));
-      });
+        .brand {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
 
-      // --- Back to top ---
-      const topBtn = document.getElementById('backTop');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 400) topBtn.classList.add('show');
-        else topBtn.classList.remove('show');
-      });
-      topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+        }
 
-      // --- Scroll progress bar ---
-      const progress = document.getElementById('progress');
-      const updateProgress = () => {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progress.style.width = pct + '%';
-      };
-      window.addEventListener('scroll', updateProgress);
-      window.addEventListener('resize', updateProgress);
-      updateProgress();
+        nav a:hover {
+            text-decoration: underline;
+        }
 
-      // --- Custom gold cursor (desktop only) ---
-      const cursor = document.getElementById('cursorDot');
-      let cx = window.innerWidth/2, cy = window.innerHeight/2, tx = cx, ty = cy;
-      const onMouseMove = (e) => { tx = e.clientX; ty = e.clientY; };
-      const animateCursor = () => {
-        cx += (tx - cx) * 0.18;
-        cy += (ty - cy) * 0.18;
-        cursor.style.transform = `translate(${cx}px, ${cy}px)`;
-        requestAnimationFrame(animateCursor);
-      };
-      if (window.matchMedia('(pointer:fine)').matches) {
-        window.addEventListener('mousemove', onMouseMove);
-        animateCursor();
-      } else {
-        cursor.style.display = 'none';
-      }
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                        url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
 
-      // --- Cinematic parallax background (scroll + mouse) ---
-      const bg = document.getElementById('parallaxBG');
-      let tgx = 50, tgy = 30, gx = tgx, gy = tgy;
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
 
-      const updateBG = () => {
-        gx += (tgx - gx) * 0.08;
-        gy += (tgy - gy) * 0.08;
-        bg.style.setProperty('--gx', gx + '%');
-        bg.style.setProperty('--gy', gy + '%');
-        requestAnimationFrame(updateBG);
-      };
-      updateBG();
+        .hero p {
+            font-size: 20px;
+        }
 
-      // mouse movement influences gradient center
-      window.addEventListener('mousemove', (e) => {
-        const vw = window.innerWidth, vh = window.innerHeight;
-        const mx = e.clientX / vw, my = e.clientY / vh;
-        tgx = 30 + mx * 40;  // 30%..70%
-        tgy = 20 + my * 40;  // 20%..60%
-      });
-      // scroll adds slow drift
-      window.addEventListener('scroll', () => {
-        const docH = document.documentElement.scrollHeight - window.innerHeight;
-        const s = docH > 0 ? window.scrollY / docH : 0;
-        // add gentle vertical bias with scroll
-        tgy = 20 + s * 50;
-      });
-    </script>
-  </body>
+        /* Sections */
+        section {
+            padding: 60px 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #c0392b;
+        }
+
+        /* Menu */
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .menu-card h3 {
+            margin-top: 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">Jay Ambe Kitchen</div>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <h1>Welcome to Jay Ambe Kitchen</h1>
+    <p>Delicious Home-Style Food Made With Love</p>
+</div>
+
+<section id="about">
+    <h2>About Us</h2>
+    <p style="text-align:center;">
+        Jay Ambe Kitchen serves fresh, hygienic, and flavorful meals inspired by
+        traditional Indian home cooking. We believe in quality ingredients,
+        authentic taste, and customer satisfaction.
+    </p>
+</section>
+
+<section id="menu">
+    <h2>Our Menu</h2>
+    <div class="menu-items">
+        <div class="menu-card">
+            <h3>Veg Thali</h3>
+            <p>Roti, Sabzi, Dal, Rice & Salad</p>
+        </div>
+        <div class="menu-card">
+            <h3>Paneer Special</h3>
+            <p>Rich & creamy paneer dishes</p>
+        </div>
+        <div class="menu-card">
+            <h3>Dal & Rice</h3>
+            <p>Comfort food made fresh daily</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <h2>Contact Us</h2>
+    <p style="text-align:center;">
+        📍 Location: Your City<br>
+        📞 Phone: +91 00000 00000<br>
+        📧 Email: jayambekitchen@email.com
+    </p>
+</section>
+
+<footer>
+    <p>© 2026 Jay Ambe Kitchen. All Rights Reserved.</p>
+</footer>
+
+</body>
 </html>
