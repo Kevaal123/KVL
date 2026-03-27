@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KVL | Portfolio</title>
+  <meta name="description" content="KVL portfolio — games development, creative technology, digital visuals, and interactive work." />
+  <meta property="og:title" content="KVL | Portfolio" />
+  <meta property="og:description" content="Games development, creative technology, and premium digital experiences." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="logo.png" />
+  <link rel="icon" type="image/svg+xml" href="logo.png" />
+  <style>
+    :root{
+      --bg:#050505;
+      --bg-soft:#0c0c0c;
+      --panel:rgba(255,255,255,.04);
+      --panel-2:rgba(255,255,255,.06);
+      --text:#f3f3f3;
+      --muted:#b9b9b9;
+      --gold:#d4af37;
+      --gold-soft:rgba(212,175,55,.15);
+      --line:rgba(255,255,255,.08);
+      --shadow:0 18px 50px rgba(0,0,0,.35);
+      --radius:22px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 50% 15%, rgba(212,175,55,.18), transparent 35%),
+        linear-gradient(180deg, #090909 0%, #030303 100%);
+      min-height:100vh;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px);
+      background-size:30px 30px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.25), rgba(0,0,0,.75));
+      z-index:-1;
+    }
+
+    .shell{width:min(var(--max), calc(100% - 28px)); margin:0 auto}
+
+    .progress{
+      position:fixed; inset:0 auto auto 0; height:3px; width:0;
+      background:linear-gradient(90deg, #8d6424, #f3db7b, #a1722b);
+      z-index:1000;
+      box-shadow:0 0 20px rgba(212,175,55,.45);
+    }
+
+    header{
+      position:sticky; top:0; z-index:100;
+      backdrop-filter:blur(14px);
+      background:rgba(0,0,0,.72);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .nav-wrap{
+      min-height:76px;
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+    }
+
+    .brand{
+      display:inline-flex; align-items:center; gap:12px; text-decoration:none; color:var(--text);
+      flex:0 0 auto;
+    }
+
+    .brand img{height:40px; width:auto; display:block}
+    .brand span{font-weight:700; letter-spacing:.18em; font-size:.95rem}
+
+    nav{display:flex; gap:8px; align-items:center}
+    nav a{
+      color:#f6f6f6; text-decoration:none; font-weight:600; font-size:.98rem;
+      padding:10px 14px; border-radius:999px; transition:.25s ease;
+    }
+    nav a:hover, nav a.active{background:var(--gold-soft); color:#fff}
+
+    .menu-toggle{
+      display:none; background:none; border:1px solid var(--line); color:var(--text);
+      padding:10px 12px; border-radius:14px; font-size:1rem;
+    }
+
+    section{padding:92px 0; scroll-margin-top:92px}
+
+    .hero{
+      min-height:calc(100svh - 76px);
+      display:grid; place-items:center;
+      padding:36px 0 48px;
+    }
+
+    .hero-card{
+      width:100%;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:28px;
+      align-items:center;
+    }
+
+    .hero-copy{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:30px;
+      padding:34px;
+      box-shadow:var(--shadow);
+    }
+
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px; border-radius:999px;
+      background:rgba(212,175,55,.1); color:#f0d77b;
+      border:1px solid rgba(212,175,55,.18);
+      font-size:.9rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    }
+
+    h1{
+      margin:18px 0 14px;
+      font-size:clamp(2.4rem, 5vw, 5.2rem);
+      line-height:1.02;
+      letter-spacing:-.03em;
+    }
+
+    .lead{
+      font-size:clamp(1rem, 1.2vw, 1.16rem);
+      color:var(--muted);
+      max-width:720px;
+      line-height:1.75;
+    }
+
+    .cta-row{display:flex; flex-wrap:wrap; gap:14px; margin-top:28px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-height:50px; padding:0 20px; border-radius:999px;
+      text-decoration:none; font-weight:700; transition:.25s ease;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .btn-primary{background:linear-gradient(90deg,#9a6d27,#d4af37,#f2db7a); color:#111}
+    .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 30px rgba(212,175,55,.25)}
+    .btn-secondary{background:rgba(255,255,255,.04); color:#fff}
+    .btn-secondary:hover{background:rgba(255,255,255,.08)}
+
+    .hero-logo{
+      display:grid; place-items:center;
+      min-height:420px;
+      border-radius:30px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(212,175,55,.14), transparent 45%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border:1px solid rgba(255,255,255,.07);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-logo::after{
+      content:""; position:absolute; inset:auto -20% -30% -20%; height:220px;
+      background:radial-gradient(circle, rgba(212,175,55,.18), transparent 65%);
+      filter:blur(24px);
+    }
+    .hero-logo img{width:min(86%, 520px); height:auto; display:block; position:relative; z-index:1}
+
+    .section-head{max-width:720px; margin:0 auto 28px; text-align:center}
+    .section-head h2{margin:0 0 12px; font-size:clamp(1.7rem, 3vw, 3rem); letter-spacing:-.02em}
+    .section-head p{margin:0; color:var(--muted); line-height:1.7}
+
+    .grid-3,.grid-2{display:grid; gap:18px}
+    .grid-3{grid-template-columns:repeat(3, minmax(0,1fr))}
+    .grid-2{grid-template-columns:repeat(2, minmax(0,1fr))}
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+    .card h3{margin:0 0 10px; font-size:1.15rem}
+    .card p{margin:0; color:var(--muted); line-height:1.7}
+
+    .project-card{
+      display:flex; flex-direction:column; gap:16px;
+      min-height:100%;
+    }
+    .project-badge{
+      display:inline-flex; width:max-content; padding:7px 12px; border-radius:999px;
+      background:rgba(212,175,55,.1); color:#ecd479; border:1px solid rgba(212,175,55,.16);
+      font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
+    }
+    .project-links{display:flex; flex-wrap:wrap; gap:10px; margin-top:auto}
+    .link-chip{
+      display:inline-flex; align-items:center; justify-content:center; min-height:40px;
+      padding:0 14px; border-radius:999px; text-decoration:none; color:#fff;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+      font-weight:600;
+    }
+
+    .skill-list{display:grid; gap:12px; margin-top:8px}
+    .skill-pill{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      padding:14px 16px; border-radius:16px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06);
+    }
+    .skill-pill strong{font-size:1rem}
+    .skill-pill span{color:var(--muted); font-size:.95rem; text-align:right}
+
+    .contact-wrap{display:grid; gap:18px; grid-template-columns:1.1fr .9fr}
+    .contact-list{display:grid; gap:12px; margin-top:20px}
+    .contact-item{
+      display:flex; justify-content:space-between; gap:14px; padding:14px 16px;
+      border-radius:16px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06);
+    }
+    .contact-item span{color:var(--muted)}
+
+    .footer{
+      padding:24px 0 40px; text-align:center; color:#9d9d9d; font-size:.95rem;
+    }
+
+    .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease}
+    .reveal.visible{opacity:1; transform:translateY(0)}
+
+    @media (max-width:980px){
+      .hero-card,.contact-wrap,.grid-3,.grid-2{grid-template-columns:1fr}
+      .hero-logo{min-height:300px}
+    }
+
+    @media (max-width:760px){
+      .nav-wrap{min-height:72px; position:relative}
+      .menu-toggle{display:inline-flex}
+      nav{
+        position:absolute; left:0; right:0; top:100%;
+        display:none; flex-direction:column; align-items:stretch; gap:4px;
+        padding:10px; background:rgba(0,0,0,.96); border-bottom:1px solid rgba(255,255,255,.07);
+      }
+      nav.open{display:flex}
+      nav a{padding:14px 16px; border-radius:14px}
+      .brand span{display:none}
+      .hero-copy{padding:24px}
+      section{padding:74px 0}
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <header>
+    <div class="shell nav-wrap">
+      <a class="brand" href="#home" aria-label="KVL home">
+        <img src="logo.png" alt="KVL logo" />
+        <span>KVL</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">Menu</button>
+
+      <nav id="siteNav">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="shell hero-card">
+        <div class="hero-copy reveal visible">
+          <div class="eyebrow">KVL Portfolio</div>
+          <h1>Creative tech, games, visuals, and premium digital presentation.</h1>
+          <p class="lead">
+            I build polished digital work across games development, interactive design, branded visuals, and creative technology.
+            This updated version keeps your black and gold identity, fixes the missing logo issue, and gives the site a cleaner mobile layout.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#projects">View Projects</a>
+            <a class="btn btn-secondary" href="#contact">Contact Section</a>
+          </div>
+        </div>
+
+        <div class="hero-logo reveal visible">
+          <img src="logo.png" alt="KVL logo large" />
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>About</h2>
+          <p>
+            KVL is presented as a premium personal brand site with a stronger first impression, clearer section structure,
+            better spacing, and a more professional homepage message. The layout is designed to work cleanly on mobile and desktop.
+          </p>
+        </div>
+        <div class="grid-3">
+          <article class="card reveal">
+            <h3>Clearer Branding</h3>
+            <p>Your logo now loads from a local <code>logo.png</code> file, so it is no longer dependent on a missing <code>logo.png</code>.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Better Mobile Layout</h3>
+            <p>The nav is now a proper mobile dropdown instead of getting cut off across the top of the screen.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Cleaner Structure</h3>
+            <p>Sections are ordered more naturally so visitors can understand who you are, what you do, and what work to view next.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>Featured Projects</h2>
+          <p>
+            I replaced the generic placeholder feel with stronger project cards. You can now swap these with your real work, screenshots, GitHub links, or live demos.
+          </p>
+        </div>
+        <div class="grid-3">
+          <article class="card project-card reveal">
+            <span class="project-badge">Games</span>
+            <h3>Unity / Gameplay Build</h3>
+            <p>Use this card for a game project, prototype, or gameplay system. Add a short result-based description and the tools used.</p>
+            <div class="project-links">
+              <span class="link-chip">Unity</span>
+              <span class="link-chip">C#</span>
+              <span class="link-chip">Gameplay</span>
+            </div>
+          </article>
+          <article class="card project-card reveal">
+            <span class="project-badge">Creative Tech</span>
+            <h3>Visual / Event Tech Project</h3>
+            <p>Use this for LED visuals, streaming setups, installations, control tools, or live graphics workflows.</p>
+            <div class="project-links">
+              <span class="link-chip">Visuals</span>
+              <span class="link-chip">OBS</span>
+              <span class="link-chip">LED</span>
+            </div>
+          </article>
+          <article class="card project-card reveal">
+            <span class="project-badge">Web</span>
+            <h3>Brand / Website Project</h3>
+            <p>Use this for KVL branding, websites, promotional builds, or other polished front-end work you want to show.</p>
+            <div class="project-links">
+              <span class="link-chip">HTML</span>
+              <span class="link-chip">CSS</span>
+              <span class="link-chip">Branding</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>Skills</h2>
+          <p>These are laid out more cleanly now, and the section works better as a supporting section under projects.</p>
+        </div>
+        <div class="grid-2">
+          <div class="card reveal">
+            <h3>Development</h3>
+            <div class="skill-list">
+              <div class="skill-pill"><strong>Unity / Unreal</strong><span>Gameplay, interaction, prototyping</span></div>
+              <div class="skill-pill"><strong>C# / C++ / Python</strong><span>Tools, systems, scripting</span></div>
+              <div class="skill-pill"><strong>UI / UX</strong><span>Clean layouts and readable interfaces</span></div>
+            </div>
+          </div>
+          <div class="card reveal">
+            <h3>Creative Work</h3>
+            <div class="skill-list">
+              <div class="skill-pill"><strong>Visual Presentation</strong><span>Premium dark / gold styling</span></div>
+              <div class="skill-pill"><strong>Branding</strong><span>Identity, motion, promo assets</span></div>
+              <div class="skill-pill"><strong>Creative Technology</strong><span>Streaming, visuals, event tech</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="shell contact-wrap">
+        <div class="card reveal">
+          <h2 style="margin:0 0 10px; font-size:clamp(1.7rem,3vw,2.8rem)">Contact</h2>
+          <p style="color:var(--muted); line-height:1.8; margin:0">
+            I kept this section clean so you can drop in your real details later without fake placeholders.
+            Add your real email, socials, GitHub, and portfolio links here.
+          </p>
+          <div class="contact-list">
+            <div class="contact-item"><strong>Website</strong><span>kvl.app</span></div>
+            <div class="contact-item"><strong>Email</strong><span>Add your real email</span></div>
+            <div class="contact-item"><strong>GitHub</strong><span>Add your real profile link</span></div>
+            <div class="contact-item"><strong>Instagram / LinkedIn</strong><span>Add your real socials</span></div>
+          </div>
+        </div>
+        <div class="card reveal">
+          <h3 style="margin-top:0">What was fixed</h3>
+          <div class="skill-list">
+            <div class="skill-pill"><strong>Logo issue</strong><span>Now uses logo.png</span></div>
+            <div class="skill-pill"><strong>Header</strong><span>Mobile menu no longer cuts off</span></div>
+            <div class="skill-pill"><strong>Hero</strong><span>Stronger message and CTAs</span></div>
+            <div class="skill-pill"><strong>Structure</strong><span>Projects now sit before skills</span></div>
+            <div class="skill-pill"><strong>Files</strong><span>Ready to upload to GitHub Pages</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="shell footer">© <span id="year"></span> KVL. Built for a cleaner and more premium first impression.</div>
+
+  <script>
+    const nav = document.getElementById('siteNav');
+    const toggle = document.getElementById('menuToggle');
+    const progress = document.getElementById('progress');
+    const year = document.getElementById('year');
+    const reveals = document.querySelectorAll('.reveal');
+    const navLinks = document.querySelectorAll('nav a');
+    const sections = [...document.querySelectorAll('main section')];
+
+    year.textContent = new Date().getFullYear();
+
+    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    navLinks.forEach(link => link.addEventListener('click', () => nav.classList.remove('open')));
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.16 });
+    reveals.forEach(el => io.observe(el));
+
+    function updateProgress(){
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const percent = height > 0 ? (scrollTop / height) * 100 : 0;
+      progress.style.width = percent + '%';
+    }
+
+    function setActiveNav(){
+      const y = window.scrollY + 120;
+      let activeId = sections[0]?.id;
+      sections.forEach(section => {
+        if (y >= section.offsetTop) activeId = section.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + activeId);
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      updateProgress();
+      setActiveNav();
+    }, { passive:true });
+
+    updateProgress();
+    setActiveNav();
+  </script>
+</body>
+</html>
