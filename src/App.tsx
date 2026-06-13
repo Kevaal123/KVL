@@ -10,8 +10,6 @@ import {
   MonitorSmartphone,
   Code2,
   Palette,
-  Menu,
-  X,
 } from "lucide-react";
 
 type Page = "home" | "work" | "services" | "contact";
@@ -32,6 +30,7 @@ function BackgroundVideo() {
       const hls = new Hls();
       hls.loadSource(videoUrl);
       hls.attachMedia(video);
+
       return () => hls.destroy();
     }
   }, []);
@@ -58,8 +57,6 @@ function Navbar({
   page: Page;
   setPage: (page: Page) => void;
 }) {
-  const [open, setOpen] = useState(false);
-
   const navItems: { label: string; page: Page }[] = [
     { label: "Home", page: "home" },
     { label: "Work", page: "work" },
@@ -67,28 +64,35 @@ function Navbar({
     { label: "Contact", page: "contact" },
   ];
 
-  function go(nextPage: Page) {
-    setPage(nextPage);
-    setOpen(false);
-  }
-
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       className="relative z-30 px-4 md:px-6 py-4 md:py-6 w-full"
     >
-      <div className="liquid-glass rounded-full px-4 md:px-6 py-3 flex items-center justify-between max-w-5xl mx-auto">
-        <button onClick={() => go("home")} className="flex items-center gap-2">
-          <Globe className="w-6 h-6 text-white" />
-          <span className="text-white font-semibold text-lg">KVL</span>
-        </button>
+      <div className="liquid-glass rounded-[32px] md:rounded-full px-4 md:px-6 py-4 md:py-3 max-w-5xl mx-auto">
+        <div className="flex items-center justify-between gap-4">
+          <button
+            onClick={() => setPage("home")}
+            className="flex items-center gap-2 cursor-pointer shrink-0"
+          >
+            <Globe className="w-6 h-6 text-white" />
+            <span className="text-white font-semibold text-lg">KVL</span>
+          </button>
 
-        <div className="hidden md:flex items-center gap-8 text-white/75 text-sm font-medium">
+          <button
+            onClick={() => setPage("contact")}
+            className="liquid-glass rounded-full px-4 md:px-6 py-2 text-xs md:text-sm font-medium text-white hover:opacity-90 transition-opacity cursor-pointer shrink-0"
+          >
+            Start Project
+          </button>
+        </div>
+
+        <div className="mt-4 md:mt-0 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 flex items-center justify-center gap-5 md:gap-8 text-white/75 text-sm md:text-sm font-medium">
           {navItems.map((item) => (
             <button
               key={item.page}
-              onClick={() => go(item.page)}
+              onClick={() => setPage(item.page)}
               className={`hover:text-white transition-colors duration-300 cursor-pointer ${
                 page === item.page ? "text-white" : ""
               }`}
@@ -97,53 +101,7 @@ function Navbar({
             </button>
           ))}
         </div>
-
-        <button
-          onClick={() => go("contact")}
-          className="hidden sm:block liquid-glass rounded-full px-5 md:px-6 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
-        >
-          Start Project
-        </button>
-
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden text-white"
-          aria-label="Open menu"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
       </div>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden liquid-glass rounded-3xl mt-3 px-5 py-5 max-w-5xl mx-auto"
-          >
-            <div className="flex flex-col gap-4 text-white text-base font-medium">
-              {navItems.map((item) => (
-                <button
-                  key={item.page}
-                  onClick={() => go(item.page)}
-                  className="text-left py-1"
-                >
-                  {item.label}
-                </button>
-              ))}
-
-              <button
-                onClick={() => go("contact")}
-                className="mt-2 rounded-full bg-white text-black py-3 font-semibold"
-              >
-                Start Project
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.nav>
   );
 }
@@ -167,10 +125,15 @@ function EmailCTA() {
     const interval = window.setInterval(() => {
       setPlaceholder(text.slice(0, index + 1));
       index++;
-      if (index >= text.length) window.clearInterval(interval);
+
+      if (index >= text.length) {
+        window.clearInterval(interval);
+      }
     }, 45);
 
-    return () => window.clearInterval(interval);
+    return () => {
+      window.clearInterval(interval);
+    };
   }, [showForm, submitted]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -246,7 +209,7 @@ function HomePage({ setPage }: { setPage: (page: Page) => void }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         style={{ fontFamily: "'Instrument Serif', serif" }}
-        className="text-[44px] sm:text-5xl md:text-[68px] font-medium tracking-[-0.03em] leading-[0.98] md:leading-[1.05] mb-7 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-[680px] md:max-w-5xl"
+        className="text-[40px] sm:text-5xl md:text-[68px] font-medium tracking-[-0.03em] leading-[1] md:leading-[1.05] mb-7 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-[680px] md:max-w-5xl"
       >
         Creative websites, apps and digital products built for modern brands
       </motion.h1>
@@ -266,18 +229,27 @@ function HomePage({ setPage }: { setPage: (page: Page) => void }) {
 function WorkPage() {
   return (
     <PageWrap>
-      <PageTitle label="Selected Work" title="Clean, fast and modern digital projects" />
+      <PageTitle
+        label="Selected Work"
+        title="Clean, fast and modern digital projects"
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl">
-        {["Portfolio Websites", "Landing Pages", "Event & Brand Sites"].map((item) => (
-          <div key={item} className="liquid-glass rounded-3xl p-6 text-left min-h-[150px]">
-            <Sparkles className="w-6 h-6 mb-6 text-white" />
-            <h3 className="text-white text-xl font-semibold mb-2">{item}</h3>
-            <p className="text-white/60 text-sm leading-relaxed">
-              Premium responsive builds with smooth motion, sharp layout and modern visual direction.
-            </p>
-          </div>
-        ))}
+        {["Portfolio Websites", "Landing Pages", "Event & Brand Sites"].map(
+          (item) => (
+            <div
+              key={item}
+              className="liquid-glass rounded-3xl p-6 text-left min-h-[150px]"
+            >
+              <Sparkles className="w-6 h-6 mb-6 text-white" />
+              <h3 className="text-white text-xl font-semibold mb-2">{item}</h3>
+              <p className="text-white/60 text-sm leading-relaxed">
+                Premium responsive builds with smooth motion, sharp layout and
+                modern visual direction.
+              </p>
+            </div>
+          )
+        )}
       </div>
     </PageWrap>
   );
@@ -286,12 +258,27 @@ function WorkPage() {
 function ServicesPage() {
   return (
     <PageWrap>
-      <PageTitle label="Services" title="Web design, development and creative direction" />
+      <PageTitle
+        label="Services"
+        title="Web design, development and creative direction"
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl">
-        <ServiceCard icon={<Palette />} title="Design" text="Modern UI design and responsive layouts." />
-        <ServiceCard icon={<Code2 />} title="Development" text="React, Vite, Tailwind, animations and deployment." />
-        <ServiceCard icon={<MonitorSmartphone />} title="Digital Products" text="Websites, portfolios, app concepts and creative experiences." />
+        <ServiceCard
+          icon={<Palette />}
+          title="Design"
+          text="Modern UI design and responsive layouts."
+        />
+        <ServiceCard
+          icon={<Code2 />}
+          title="Development"
+          text="React, Vite, Tailwind, animations and deployment."
+        />
+        <ServiceCard
+          icon={<MonitorSmartphone />}
+          title="Digital Products"
+          text="Websites, portfolios, app concepts and creative experiences."
+        />
       </div>
     </PageWrap>
   );
@@ -306,7 +293,8 @@ function ContactPage() {
         <Mail className="w-7 h-7 mx-auto mb-5 text-white" />
 
         <p className="text-white/65 text-sm md:text-base leading-relaxed mb-6">
-          For websites, landing pages, portfolio builds or digital design work, contact KVL directly.
+          For websites, landing pages, portfolio builds or digital design work,
+          contact KVL directly.
         </p>
 
         <a
@@ -354,7 +342,7 @@ function PageTitle({ label, title }: { label: string; title: string }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         style={{ fontFamily: "'Instrument Serif', serif" }}
-        className="text-[42px] md:text-[58px] font-medium tracking-[-0.03em] leading-[1] mb-8 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-4xl"
+        className="text-[40px] md:text-[58px] font-medium tracking-[-0.03em] leading-[1] mb-8 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-4xl"
       >
         {title}
       </motion.h1>
