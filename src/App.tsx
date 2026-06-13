@@ -8,18 +8,22 @@ function BackgroundVideo() {
 
   useEffect(() => {
     const video = videoRef.current;
-    const src = "https://stream.mux.com/kimF2ha9zLrX64H00UgLGPflCzNtl1T0215MlAmeOztv8.m3u8";
+
+    const videoUrl =
+      "https://stream.mux.com/kimF2ha9zLrX64H00UgLGPflCzNtl1T0215MlAmeOztv8.m3u8";
 
     if (!video) return;
 
     if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = src;
+      video.src = videoUrl;
     } else if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(src);
+      hls.loadSource(videoUrl);
       hls.attachMedia(video);
 
-      return () => hls.destroy();
+      return () => {
+        hls.destroy();
+      };
     }
   }, []);
 
@@ -33,6 +37,7 @@ function BackgroundVideo() {
         playsInline
         className="w-full h-full object-cover opacity-100"
       />
+      <div className="absolute inset-0 bg-black/35" />
     </div>
   );
 }
@@ -52,9 +57,15 @@ function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-8 text-white/80 text-sm font-medium">
-            <a className="hover:text-white transition-colors duration-300">Features</a>
-            <a className="hover:text-white transition-colors duration-300">Pricing</a>
-            <a className="hover:text-white transition-colors duration-300">About</a>
+            <a href="#features" className="hover:text-white transition-colors duration-300">
+              Features
+            </a>
+            <a href="#pricing" className="hover:text-white transition-colors duration-300">
+              Pricing
+            </a>
+            <a href="#about" className="hover:text-white transition-colors duration-300">
+              About
+            </a>
           </div>
         </div>
 
@@ -62,6 +73,7 @@ function Navbar() {
           <button className="text-white hover:text-white/80 transition-colors text-sm font-medium cursor-pointer">
             Sign Up
           </button>
+
           <button className="liquid-glass rounded-full px-6 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity cursor-pointer">
             Login
           </button>
@@ -85,22 +97,27 @@ function Hero() {
 
     setPlaceholder("");
 
-    let i = 0;
-    const interval = setInterval(() => {
-      setPlaceholder(text.slice(0, i + 1));
-      i++;
+    let index = 0;
 
-      if (i >= text.length) clearInterval(interval);
+    const interval = window.setInterval(() => {
+      setPlaceholder(text.slice(0, index + 1));
+      index++;
+
+      if (index >= text.length) {
+        window.clearInterval(interval);
+      }
     }, 60);
 
-    return () => clearInterval(interval);
+    return () => {
+      window.clearInterval(interval);
+    };
   }, [showForm, submitted]);
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setSubmitted(true);
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       setShowForm(false);
       setSubmitted(false);
       setPlaceholder("");
@@ -123,8 +140,13 @@ function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            style={{ fontFamily: "'Instrument Serif', serif" }}
+            transition={{
+              duration: 1,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            style={{
+              fontFamily: "'Instrument Serif', serif",
+            }}
             className="text-4xl md:text-[64px] font-medium tracking-[-0.01em] leading-[1.1] mb-6 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-4xl"
           >
             A new way to think and create
@@ -167,7 +189,11 @@ function Hero() {
                     placeholder={placeholder}
                     className="bg-transparent outline-none text-white placeholder-white/45 flex-1 min-w-0"
                   />
-                  <button className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center">
+
+                  <button
+                    type="submit"
+                    className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center"
+                  >
                     {submitted ? <Check size={16} /> : <ArrowRight size={16} />}
                   </button>
                 </motion.form>
