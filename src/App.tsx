@@ -10,6 +10,8 @@ import {
   MonitorSmartphone,
   Code2,
   Palette,
+  Menu,
+  X,
 } from "lucide-react";
 
 type Page = "home" | "work" | "services" | "contact";
@@ -19,7 +21,6 @@ function BackgroundVideo() {
 
   useEffect(() => {
     const video = videoRef.current;
-
     const videoUrl =
       "https://stream.mux.com/kimF2ha9zLrX64H00UgLGPflCzNtl1T0215MlAmeOztv8.m3u8";
 
@@ -31,7 +32,6 @@ function BackgroundVideo() {
       const hls = new Hls();
       hls.loadSource(videoUrl);
       hls.attachMedia(video);
-
       return () => hls.destroy();
     }
   }, []);
@@ -46,7 +46,7 @@ function BackgroundVideo() {
         playsInline
         className="w-full h-full object-cover opacity-100"
       />
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="absolute inset-0 bg-black/60" />
     </div>
   );
 }
@@ -58,6 +58,8 @@ function Navbar({
   page: Page;
   setPage: (page: Page) => void;
 }) {
+  const [open, setOpen] = useState(false);
+
   const navItems: { label: string; page: Page }[] = [
     { label: "Home", page: "home" },
     { label: "Work", page: "work" },
@@ -65,17 +67,19 @@ function Navbar({
     { label: "Contact", page: "contact" },
   ];
 
+  function go(nextPage: Page) {
+    setPage(nextPage);
+    setOpen(false);
+  }
+
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="relative z-20 px-4 md:px-6 py-6 w-full"
+      className="relative z-30 px-4 md:px-6 py-4 md:py-6 w-full"
     >
-      <div className="liquid-glass rounded-full px-5 md:px-6 py-3 flex items-center justify-between max-w-5xl mx-auto">
-        <button
-          onClick={() => setPage("home")}
-          className="flex items-center gap-2 cursor-pointer"
-        >
+      <div className="liquid-glass rounded-full px-4 md:px-6 py-3 flex items-center justify-between max-w-5xl mx-auto">
+        <button onClick={() => go("home")} className="flex items-center gap-2">
           <Globe className="w-6 h-6 text-white" />
           <span className="text-white font-semibold text-lg">KVL</span>
         </button>
@@ -84,7 +88,7 @@ function Navbar({
           {navItems.map((item) => (
             <button
               key={item.page}
-              onClick={() => setPage(item.page)}
+              onClick={() => go(item.page)}
               className={`hover:text-white transition-colors duration-300 cursor-pointer ${
                 page === item.page ? "text-white" : ""
               }`}
@@ -95,12 +99,51 @@ function Navbar({
         </div>
 
         <button
-          onClick={() => setPage("contact")}
-          className="liquid-glass rounded-full px-5 md:px-6 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
+          onClick={() => go("contact")}
+          className="hidden sm:block liquid-glass rounded-full px-5 md:px-6 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
         >
           Start Project
         </button>
+
+        <button
+          onClick={() => setOpen(!open)}
+          className="md:hidden text-white"
+          aria-label="Open menu"
+        >
+          {open ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden liquid-glass rounded-3xl mt-3 px-5 py-5 max-w-5xl mx-auto"
+          >
+            <div className="flex flex-col gap-4 text-white text-base font-medium">
+              {navItems.map((item) => (
+                <button
+                  key={item.page}
+                  onClick={() => go(item.page)}
+                  className="text-left py-1"
+                >
+                  {item.label}
+                </button>
+              ))}
+
+              <button
+                onClick={() => go("contact")}
+                className="mt-2 rounded-full bg-white text-black py-3 font-semibold"
+              >
+                Start Project
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }
@@ -115,7 +158,7 @@ function EmailCTA() {
 
     const text = submitted
       ? "Thanks — I will get back to you soon"
-      : "Enter your email to start a project";
+      : "Enter your email";
 
     setPlaceholder("");
 
@@ -124,7 +167,6 @@ function EmailCTA() {
     const interval = window.setInterval(() => {
       setPlaceholder(text.slice(0, index + 1));
       index++;
-
       if (index >= text.length) window.clearInterval(interval);
     }, 45);
 
@@ -143,7 +185,7 @@ function EmailCTA() {
   }
 
   return (
-    <div className="min-h-[50px] mt-2 flex justify-center">
+    <div className="min-h-[50px] mt-2 flex justify-center w-full">
       <AnimatePresence mode="wait">
         {!showForm ? (
           <motion.button
@@ -153,7 +195,7 @@ function EmailCTA() {
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setShowForm(true)}
-            className="px-10 py-3 text-[14px] font-medium border border-white/15 rounded-full hover:border-white/35 hover:bg-white/[0.04] transition-all duration-300 text-white/90 backdrop-blur-sm cursor-pointer"
+            className="w-full max-w-[260px] md:max-w-none md:w-auto px-8 md:px-10 py-3 text-[14px] font-medium border border-white/15 rounded-full hover:border-white/35 hover:bg-white/[0.04] transition-all duration-300 text-white/90 backdrop-blur-sm cursor-pointer"
           >
             Start a project
           </motion.button>
@@ -165,7 +207,7 @@ function EmailCTA() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="flex items-center gap-2 pl-5 pr-1.5 py-1.5 text-[14px] font-medium border border-white/20 rounded-full bg-white/[0.03] backdrop-blur-sm w-full max-w-[340px] focus-within:border-white/40 transition-colors duration-300"
+            className="flex items-center gap-2 pl-5 pr-1.5 py-1.5 text-[14px] font-medium border border-white/20 rounded-full bg-white/[0.03] backdrop-blur-sm w-full max-w-[320px] focus-within:border-white/40 transition-colors duration-300"
           >
             <input
               type="email"
@@ -177,7 +219,7 @@ function EmailCTA() {
 
             <button
               type="submit"
-              className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center"
+              className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shrink-0"
             >
               {submitted ? <Check size={16} /> : <ArrowRight size={16} />}
             </button>
@@ -204,17 +246,16 @@ function HomePage({ setPage }: { setPage: (page: Page) => void }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         style={{ fontFamily: "'Instrument Serif', serif" }}
-        className="text-4xl md:text-[68px] font-medium tracking-[-0.02em] leading-[1.05] mb-6 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-5xl"
+        className="text-[44px] sm:text-5xl md:text-[68px] font-medium tracking-[-0.03em] leading-[0.98] md:leading-[1.05] mb-7 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-[680px] md:max-w-5xl"
       >
-        Creative websites, apps and digital products
-        <br className="hidden md:block" /> built for modern brands
+        Creative websites, apps and digital products built for modern brands
       </motion.h1>
 
       <EmailCTA />
 
       <button
         onClick={() => setPage("work")}
-        className="mt-8 text-white/80 hover:text-white/40 transition-colors duration-300 text-[13px] font-medium tracking-wide cursor-pointer"
+        className="mt-8 text-white/80 hover:text-white/40 transition-colors duration-300 text-[14px] font-medium tracking-wide cursor-pointer"
       >
         View My Work
       </button>
@@ -225,26 +266,15 @@ function HomePage({ setPage }: { setPage: (page: Page) => void }) {
 function WorkPage() {
   return (
     <PageWrap>
-      <PageTitle
-        label="Selected Work"
-        title="Clean, fast and modern digital projects"
-      />
+      <PageTitle label="Selected Work" title="Clean, fast and modern digital projects" />
 
-      <div className="grid md:grid-cols-3 gap-4 w-full max-w-5xl">
-        {[
-          "Portfolio Websites",
-          "Landing Pages",
-          "Event & Brand Sites",
-        ].map((item) => (
-          <div
-            key={item}
-            className="liquid-glass rounded-3xl p-6 text-left min-h-[160px]"
-          >
-            <Sparkles className="w-6 h-6 mb-8 text-white" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl">
+        {["Portfolio Websites", "Landing Pages", "Event & Brand Sites"].map((item) => (
+          <div key={item} className="liquid-glass rounded-3xl p-6 text-left min-h-[150px]">
+            <Sparkles className="w-6 h-6 mb-6 text-white" />
             <h3 className="text-white text-xl font-semibold mb-2">{item}</h3>
             <p className="text-white/60 text-sm leading-relaxed">
-              Premium responsive builds with smooth motion, sharp layout and
-              modern visual direction.
+              Premium responsive builds with smooth motion, sharp layout and modern visual direction.
             </p>
           </div>
         ))}
@@ -256,27 +286,12 @@ function WorkPage() {
 function ServicesPage() {
   return (
     <PageWrap>
-      <PageTitle
-        label="Services"
-        title="Web design, development and creative direction"
-      />
+      <PageTitle label="Services" title="Web design, development and creative direction" />
 
-      <div className="grid md:grid-cols-3 gap-4 w-full max-w-5xl">
-        <ServiceCard
-          icon={<Palette />}
-          title="Design"
-          text="Modern UI design, landing page layouts, brand-focused visuals and responsive structure."
-        />
-        <ServiceCard
-          icon={<Code2 />}
-          title="Development"
-          text="React, Vite, Tailwind, animations, GitHub Pages deployment and performance setup."
-        />
-        <ServiceCard
-          icon={<MonitorSmartphone />}
-          title="Digital Products"
-          text="Websites, portfolios, app concepts, event pages and creative online experiences."
-        />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl">
+        <ServiceCard icon={<Palette />} title="Design" text="Modern UI design and responsive layouts." />
+        <ServiceCard icon={<Code2 />} title="Development" text="React, Vite, Tailwind, animations and deployment." />
+        <ServiceCard icon={<MonitorSmartphone />} title="Digital Products" text="Websites, portfolios, app concepts and creative experiences." />
       </div>
     </PageWrap>
   );
@@ -291,8 +306,7 @@ function ContactPage() {
         <Mail className="w-7 h-7 mx-auto mb-5 text-white" />
 
         <p className="text-white/65 text-sm md:text-base leading-relaxed mb-6">
-          For websites, landing pages, portfolio builds or digital design work,
-          contact KVL directly.
+          For websites, landing pages, portfolio builds or digital design work, contact KVL directly.
         </p>
 
         <a
@@ -316,8 +330,8 @@ function ServiceCard({
   text: string;
 }) {
   return (
-    <div className="liquid-glass rounded-3xl p-6 text-left min-h-[190px]">
-      <div className="w-6 h-6 mb-8 text-white">{icon}</div>
+    <div className="liquid-glass rounded-3xl p-6 text-left min-h-[150px]">
+      <div className="w-6 h-6 mb-6 text-white">{icon}</div>
       <h3 className="text-white text-xl font-semibold mb-2">{title}</h3>
       <p className="text-white/60 text-sm leading-relaxed">{text}</p>
     </div>
@@ -340,7 +354,7 @@ function PageTitle({ label, title }: { label: string; title: string }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         style={{ fontFamily: "'Instrument Serif', serif" }}
-        className="text-4xl md:text-[58px] font-medium tracking-[-0.02em] leading-[1.05] mb-10 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-4xl"
+        className="text-[42px] md:text-[58px] font-medium tracking-[-0.03em] leading-[1] mb-8 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-4xl"
       >
         {title}
       </motion.h1>
@@ -355,7 +369,7 @@ function PageWrap({ children }: { children: React.ReactNode }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -14 }}
       transition={{ duration: 0.35 }}
-      className="relative flex-1 flex flex-col items-center justify-center px-6 text-center"
+      className="relative flex-1 flex flex-col items-center justify-center px-5 md:px-6 text-center overflow-y-auto py-8 md:py-0"
     >
       <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center">
         {children}
@@ -381,7 +395,7 @@ export default function App() {
   }
 
   return (
-    <main className="relative bg-black h-screen w-screen flex flex-col overflow-hidden selection:bg-white selection:text-black shrink-0">
+    <main className="relative bg-black min-h-screen h-screen w-screen flex flex-col overflow-hidden selection:bg-white selection:text-black">
       <BackgroundVideo />
       <Navbar page={page} setPage={changePage} />
 
