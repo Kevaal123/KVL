@@ -37,7 +37,7 @@ function BackgroundVideo() {
         playsInline
         className="w-full h-full object-cover opacity-100"
       />
-      <div className="absolute inset-0 bg-black/35" />
+      <div className="absolute inset-0 bg-black/45" />
     </div>
   );
 }
@@ -53,30 +53,36 @@ function Navbar() {
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-2">
             <Globe className="w-6 h-6 text-white" />
-            <span className="text-white font-semibold text-lg">Asme</span>
+            <span className="text-white font-semibold text-lg">KVL</span>
           </div>
 
           <div className="hidden md:flex items-center gap-8 text-white/80 text-sm font-medium">
-            <a href="#features" className="hover:text-white transition-colors duration-300">
-              Features
+            <a href="#work" className="hover:text-white transition-colors duration-300">
+              Work
             </a>
-            <a href="#pricing" className="hover:text-white transition-colors duration-300">
-              Pricing
+            <a href="#services" className="hover:text-white transition-colors duration-300">
+              Services
             </a>
-            <a href="#about" className="hover:text-white transition-colors duration-300">
-              About
+            <a href="#contact" className="hover:text-white transition-colors duration-300">
+              Contact
             </a>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="text-white hover:text-white/80 transition-colors text-sm font-medium cursor-pointer">
-            Sign Up
-          </button>
+          <a
+            href="#work"
+            className="text-white hover:text-white/80 transition-colors text-sm font-medium cursor-pointer"
+          >
+            Portfolio
+          </a>
 
-          <button className="liquid-glass rounded-full px-6 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity cursor-pointer">
-            Login
-          </button>
+          <a
+            href="mailto:hello@kvl.app"
+            className="liquid-glass rounded-full px-6 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
+          >
+            Contact
+          </a>
         </div>
       </div>
     </motion.nav>
@@ -92,8 +98,8 @@ function Hero() {
     if (!showForm) return;
 
     const text = submitted
-      ? "You Will Receive Notifications By Email"
-      : "Enter Your Email Here For Early Access";
+      ? "Thanks — I will get back to you soon"
+      : "Enter your email to start a project";
 
     setPlaceholder("");
 
@@ -134,7 +140,7 @@ function Hero() {
             transition={{ delay: 0.1 }}
             className="text-white/80 text-[10px] md:text-[11px] font-medium tracking-[0.2em] uppercase mb-4"
           >
-            BUILD A NO-CODE AI APP IN MINUTES
+            KVL DIGITAL EXPERIENCES
           </motion.p>
 
           <motion.h1
@@ -149,8 +155,8 @@ function Hero() {
             }}
             className="text-4xl md:text-[64px] font-medium tracking-[-0.01em] leading-[1.1] mb-6 bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent max-w-4xl"
           >
-            A new way to think and create
-            <br className="hidden md:block" /> with computers
+            Creative websites, apps and digital products
+            <br className="hidden md:block" /> built for modern brands
           </motion.h1>
 
           <motion.div
@@ -170,7 +176,7 @@ function Hero() {
                   onClick={() => setShowForm(true)}
                   className="px-10 py-3 text-[14px] font-medium border border-white/10 rounded-full hover:border-white/30 hover:bg-white/[0.02] transition-all duration-300 text-white/90 backdrop-blur-sm cursor-pointer"
                 >
-                  Get early access
+                  Start a project
                 </motion.button>
               ) : (
                 <motion.form
@@ -180,7 +186,7 @@ function Hero() {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.95, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="flex items-center gap-2 pl-5 pr-1.5 py-1.5 text-[14px] font-medium border border-white/20 rounded-full bg-white/[0.02] backdrop-blur-sm w-full max-w-[320px] focus-within:border-white/40 transition-colors duration-300"
+                  className="flex items-center gap-2 pl-5 pr-1.5 py-1.5 text-[14px] font-medium border border-white/20 rounded-full bg-white/[0.02] backdrop-blur-sm w-full max-w-[340px] focus-within:border-white/40 transition-colors duration-300"
                 >
                   <input
                     type="email"
@@ -206,10 +212,10 @@ function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          href="#"
+          href="#work"
           className="text-white/80 hover:text-white/40 transition-colors duration-300 text-[13px] font-medium tracking-wide"
         >
-          Play Video Demo
+          View My Work
         </motion.a>
       </div>
     </section>
