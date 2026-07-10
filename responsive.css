@@ -1,6 +1,8 @@
 /* Layout refinements: keep the hero compact and prevent overlay clipping. */
 .hero { min-height: 0; padding-top: 48px; padding-bottom: 64px; }
 .live-card { left: 20px; }
+.ticker div { display: inline-block; min-width: max-content; animation: scroll 24s linear infinite; }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 @media (max-width: 800px) {
   .hero { gap: 38px; padding-top: 38px; padding-bottom: 54px; }
