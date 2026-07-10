@@ -1,0 +1,30 @@
+/* Layout refinements: keep the hero compact and prevent overlay clipping. */
+.hero { min-height: 0; padding-top: 48px; padding-bottom: 64px; }
+.live-card { left: 20px; }
+
+@media (max-width: 800px) {
+  .hero { gap: 38px; padding-top: 38px; padding-bottom: 54px; }
+  .hero-art { margin-left: 0; }
+  .live-card { left: 16px; }
+}
+
+@media (max-width: 520px) {
+  .wrap, .site-header { padding-left: 20px; padding-right: 20px; }
+  .hero { padding-top: 32px; }
+  .hero h1 { font-size: clamp(53px, 16vw, 78px); line-height: .9; }
+  .lead { font-size: 15px; margin: 24px 0; }
+  .hero-actions { align-items: flex-start; flex-direction: column; gap: 18px; }
+  .hero-art { height: 350px; }
+  .quality { right: 12px; top: 12px; padding: 9px 11px; }
+  .live-card { left: 12px; bottom: 18px; width: 190px; padding: 17px 18px; }
+  .live-card strong { font-size: 22px; margin: 18px 0; }
+  .art-foot { left: 14px; right: 14px; }
+  .section-intro h2 { font-size: 48px; }
+  .service { padding: 24px; min-height: 290px; }
+  .service h3 { font-size: 30px; }
+  .occasion-list span { font-size: 19px; }
+  .contact-inner { padding: 48px 24px 110px; }
+  .contact-inner h2 { font-size: 48px; }
+  .contact-meta { left: 24px; right: 24px; }
+  .contact-orbit { right: -75px; }
+}
