@@ -2,6 +2,7 @@
 .step-one{background-image:url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=85')!important}
 .step-two{background-image:url('https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=800&q=85')!important}
 .step-three{background-image:url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=85')!important}
-.step-four{background-image:url('https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=800&q=85')!important;background-size:cover!important}
+.step-four{background-image:url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=85')!important;background-size:cover!important;background-position:center!important}
 .events-preview .religious,.event-cards .religious{background-image:url('https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=85')!important}
 .event-cards .event-card[data-category="personal"]:last-child .event-photo{background-image:url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=85')!important}
+@media(max-width:700px){.step-card{align-items:start}.step-card .step-art{grid-column:1/-1;width:100%;min-height:190px;margin-top:8px;background-size:cover;background-position:center;border-radius:8px}.step-four{min-height:190px}}
