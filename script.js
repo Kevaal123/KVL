@@ -5,7 +5,7 @@ const nav = document.querySelector('.site-nav');
 const EVENT_PIN = "2580";
 const CLOUDFLARE_LIFECYCLE_URL = 'https://customer-qkwe88t0rzsqmnjy.cloudflarestream.com/e6b760ce813b42de4fb8a2f5433dcaef/lifecycle';
 const LIVE_STATUS_KEY = 'kvl-live-input-has-started-session-v2';
-const ASSET_VERSION = '20260813-2';
+const ASSET_VERSION = '20260813-3';
 const CACHE_CLEANUP_VERSION = 'kvl-cache-cleanup-20260813-1';
 const pageNames = ['how-it-works', 'pricing', 'about', 'contact', 'live'];
 
