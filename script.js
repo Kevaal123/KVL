@@ -3,6 +3,8 @@ const nav = document.querySelector('.site-nav');
 
 // Basic client-side access control only; use Cloudflare signed URLs or server-side authentication for stronger security.
 const EVENT_PIN = "2580";
+const CLOUDFLARE_LIFECYCLE_URL = 'https://customer-qkwe88t0rzsqmnjy.cloudflarestream.com/e6b760ce813b42de4fb8a2f5433dcaef/lifecycle';
+const LIVE_STATUS_KEY = 'kvl-live-input-has-started-v1';
 const pageNames = ['how-it-works', 'pricing', 'about', 'contact', 'live'];
 const pagePath = window.location.pathname.split('/').filter(Boolean).pop()?.replace('.html', '') || 'index';
 const cleanPath = pageNames.includes(pagePath) ? `/${pagePath}/` : '/';
@@ -134,12 +136,50 @@ const liveContent = document.querySelector('#live-content');
 const pinForm = document.querySelector('#pin-form');
 const pinError = document.querySelector('#pin-error');
 const liveAccessKey = 'kvl-live-session-access';
+const liveStatusBadge = document.querySelector('#live-status-badge');
+const liveStatusLabel = document.querySelector('#live-status-label');
+const liveEndedOverlay = document.querySelector('#live-ended-overlay');
+let liveStatusTimer;
+
+const setLiveStatus = (status) => {
+  if (!liveStatusBadge || !liveStatusLabel) return;
+  liveStatusBadge.dataset.status = status;
+  liveStatusLabel.textContent = status === 'live' ? 'LIVE' : status === 'ended' ? 'ENDED' : 'WAITING';
+  liveStatusBadge.setAttribute('aria-label', status === 'live' ? 'Live now' : status === 'ended' ? 'Stream ended' : 'Stream waiting to start');
+  if (liveEndedOverlay) liveEndedOverlay.hidden = status !== 'ended';
+};
+
+const checkLiveStatus = async () => {
+  try {
+    const response = await fetch(CLOUDFLARE_LIFECYCLE_URL, { cache: 'no-store' });
+    if (!response.ok) return;
+    const lifecycle = await response.json();
+    if (lifecycle.live === true) {
+      try { localStorage.setItem(LIVE_STATUS_KEY, 'started'); } catch (_) {}
+      setLiveStatus('live');
+    } else {
+      let hasStarted = false;
+      try { hasStarted = localStorage.getItem(LIVE_STATUS_KEY) === 'started'; } catch (_) {}
+      setLiveStatus(hasStarted ? 'ended' : 'waiting');
+    }
+  } catch (_) {
+    // Keep the embedded Cloudflare player available if the public status check is unavailable.
+  }
+};
+
+const startLiveStatusChecks = () => {
+  if (!liveStatusBadge) return;
+  checkLiveStatus();
+  window.clearInterval(liveStatusTimer);
+  liveStatusTimer = window.setInterval(checkLiveStatus, 15000);
+};
 
 if (pinGate && liveContent && pinForm) {
   const unlockLivePage = () => {
     pinGate.hidden = true;
     liveContent.hidden = false;
     sessionStorage.setItem(liveAccessKey, 'granted');
+    startLiveStatusChecks();
   };
 
   if (sessionStorage.getItem(liveAccessKey) === 'granted') unlockLivePage();

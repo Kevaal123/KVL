@@ -51,9 +51,10 @@
       </div>
 
       <div id="live-content" hidden>
-        <div class="live-player-heading"><div><span class="eyebrow">PRIVATE CLIENT BROADCAST</span><h2>Wedding Reception</h2></div><span class="live-badge"><span class="live-dot"></span> LIVE</span></div>
+        <div class="live-player-heading"><div><span class="eyebrow">PRIVATE CLIENT BROADCAST</span><h2>Wedding Reception</h2></div><span class="live-badge" id="live-status-badge" data-status="waiting" aria-live="polite"><span class="live-dot"></span><span id="live-status-label">WAITING</span></span></div>
         <div class="live-player" aria-label="Private wedding reception livestream">
           <iframe src="https://customer-qkwe88t0rzsqmnjy.cloudflarestream.com/e6b760ce813b42de4fb8a2f5433dcaef/iframe" title="Wedding Reception livestream" allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen></iframe>
+          <div class="live-ended-overlay" id="live-ended-overlay" hidden><strong>Live stream has ended.</strong><span>The recording may be available after the event.</span></div>
         </div>
 
         <div class="live-info-grid">
