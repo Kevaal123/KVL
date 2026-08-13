@@ -1,7 +1,9 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.site-nav');
 
-const pageNames = ['how-it-works', 'pricing', 'about', 'contact'];
+// Basic client-side access control only; use Cloudflare signed URLs or server-side authentication for stronger security.
+const EVENT_PIN = "2580";
+const pageNames = ['how-it-works', 'pricing', 'about', 'contact', 'live'];
 const pagePath = window.location.pathname.split('/').filter(Boolean).pop()?.replace('.html', '') || 'index';
 const cleanPath = pageNames.includes(pagePath) ? `/${pagePath}/` : '/';
 if (window.location.pathname.endsWith('.html') && window.history?.replaceState) {
@@ -27,15 +29,38 @@ document.querySelectorAll('a[href$=".html"]').forEach((link) => {
 document.querySelectorAll('.site-nav a').forEach((link) => {
   const label = link.textContent.trim();
   if (label === 'Events') {
-    link.textContent = 'Occasions';
+    link.setAttribute('href', '/#occasions');
+  }
+  if (label === 'Occasions') {
+    link.textContent = 'Events';
     link.setAttribute('href', '/#occasions');
   }
   if (label === 'About Us') {
-    link.textContent = 'About & Contact';
     link.setAttribute('href', 'about.html');
   }
-  if (label === 'Contact') link.remove();
+  if (label === 'About & Contact') {
+    link.textContent = 'About Us';
+    link.setAttribute('href', 'about.html');
+  }
 });
+
+const siteNav = document.querySelector('.site-nav');
+const hasLiveLink = [...(siteNav?.querySelectorAll('a') || [])].some((link) => link.dataset.liveNav === 'true');
+if (siteNav && !hasLiveLink) {
+  const liveLink = document.createElement('a');
+  liveLink.href = '/live/';
+  liveLink.textContent = 'Watch a Live Stream';
+  liveLink.dataset.liveNav = 'true';
+  const pricingLink = [...siteNav.querySelectorAll('a')].find((link) => link.textContent.trim() === 'Pricing');
+  pricingLink?.after(liveLink);
+}
+if (siteNav && ![...siteNav.querySelectorAll('a')].some((link) => link.textContent.trim() === 'Contact')) {
+  const contactLink = document.createElement('a');
+  contactLink.href = 'about.html#contact';
+  contactLink.textContent = 'Contact';
+  const aboutLink = [...siteNav.querySelectorAll('a')].find((link) => link.textContent.trim() === 'About Us');
+  aboutLink?.after(contactLink);
+}
 
 document.querySelectorAll('a[href^="contact.html"]').forEach((link) => {
   const target = link.getAttribute('href');
@@ -103,3 +128,31 @@ form?.addEventListener('submit', (event) => {
   document.querySelector('#form-note').textContent = 'Opening your email app…';
   window.location.href = `mailto:Kevalsatish@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
+
+const pinGate = document.querySelector('#pin-gate');
+const liveContent = document.querySelector('#live-content');
+const pinForm = document.querySelector('#pin-form');
+const pinError = document.querySelector('#pin-error');
+const liveAccessKey = 'kvl-live-session-access';
+
+if (pinGate && liveContent && pinForm) {
+  const unlockLivePage = () => {
+    pinGate.hidden = true;
+    liveContent.hidden = false;
+    sessionStorage.setItem(liveAccessKey, 'granted');
+  };
+
+  if (sessionStorage.getItem(liveAccessKey) === 'granted') unlockLivePage();
+
+  pinForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const enteredPin = pinForm.elements.pin.value.trim();
+    if (enteredPin === EVENT_PIN) {
+      pinError.textContent = '';
+      unlockLivePage();
+    } else {
+      pinError.textContent = 'That PIN is not correct. Please try again.';
+      pinForm.elements.pin.select();
+    }
+  });
+}
