@@ -11,6 +11,7 @@
 @media(max-width:420px){.event-grid.six{grid-template-columns:1fr}.event-grid.six .event-card{min-height:0}}
 @media(max-width:700px){.live-hero{min-height:300px;padding-top:52px;padding-bottom:42px}.live-hero-mark{display:none}.live-player-heading{align-items:start;flex-direction:column}.live-info-grid{grid-template-columns:1fr}.live-info-grid .glass-card{min-height:0}.live-details-card dl{grid-template-columns:1fr 1fr}.pin-gate{padding:30px 22px}.live-share-card{grid-template-columns:auto 1fr}.live-share-actions{grid-column:1/-1;justify-content:start}.live-share-actions .form-note{text-align:left}}
 @media(max-width:420px){.live-hero .page-title{font-size:50px}.live-details-card dl{grid-template-columns:1fr}.live-badge{align-self:flex-start}}
+.live-ended-overlay[hidden]{display:none!important}
 .step-one{background-image:url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=85')!important}
 .step-two{background-image:url('https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=800&q=85')!important}
 .step-three{background-image:url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=85')!important}
