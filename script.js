@@ -1,7 +1,7 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.site-nav');
 
-const pageNames = ['how-it-works', 'events', 'pricing', 'about', 'contact'];
+const pageNames = ['how-it-works', 'pricing', 'about', 'contact'];
 const pagePath = window.location.pathname.split('/').filter(Boolean).pop()?.replace('.html', '') || 'index';
 const cleanPath = pageNames.includes(pagePath) ? `/${pagePath}/` : '/';
 if (window.location.pathname.endsWith('.html') && window.history?.replaceState) {
@@ -15,8 +15,33 @@ document.head.appendChild(imageFixes);
 
 document.querySelectorAll('a[href$=".html"]').forEach((link) => {
   const target = link.getAttribute('href');
+  if (target.startsWith('events.html')) {
+    link.setAttribute('href', '/#occasions');
+    link.textContent = link.textContent.replace(/Events/g, 'Occasions');
+    return;
+  }
   const match = target.match(/^(?:\.\.\/)?([^/#?]+)\.html(.*)$/);
   if (match && pageNames.includes(match[1])) link.dataset.cleanHref = `/${match[1]}/${match[2] || ''}`;
+});
+
+document.querySelectorAll('.site-nav a').forEach((link) => {
+  const label = link.textContent.trim();
+  if (label === 'Events') {
+    link.textContent = 'Occasions';
+    link.setAttribute('href', '/#occasions');
+  }
+  if (label === 'About Us') {
+    link.textContent = 'About & Contact';
+    link.setAttribute('href', 'about.html');
+  }
+  if (label === 'Contact') link.remove();
+});
+
+document.querySelectorAll('a[href^="contact.html"]').forEach((link) => {
+  const target = link.getAttribute('href');
+  const query = target.includes('?') ? target.slice(target.indexOf('?')) : '';
+  link.setAttribute('href', `about.html${query}#contact`);
+  delete link.dataset.cleanHref;
 });
 
 document.addEventListener('click', (event) => {
@@ -50,6 +75,17 @@ document.querySelectorAll('.filter-button').forEach((button) => {
 });
 
 const form = document.querySelector('#contact-form');
+const params = new URLSearchParams(window.location.search);
+const requestedEvent = params.get('event');
+const requestedPackage = params.get('package');
+if (form && requestedEvent) {
+  const eventField = form.elements.event;
+  const option = [...eventField.options].find((item) => item.value.toLowerCase().includes(requestedEvent.toLowerCase()));
+  if (option) eventField.value = option.value;
+}
+if (form && requestedPackage && !form.elements.message.value) {
+  form.elements.message.value = `I am interested in the ${requestedPackage} package.`;
+}
 form?.addEventListener('submit', (event) => {
   event.preventDefault();
   const data = new FormData(form);
