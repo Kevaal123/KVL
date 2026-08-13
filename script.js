@@ -51,7 +51,7 @@ const hasLiveLink = [...(siteNav?.querySelectorAll('a') || [])].some((link) => l
 if (siteNav && !hasLiveLink) {
   const liveLink = document.createElement('a');
   liveLink.href = '/live/';
-  liveLink.textContent = 'Watch a Live Stream';
+  liveLink.textContent = 'Watch Live';
   liveLink.dataset.liveNav = 'true';
   const pricingLink = [...siteNav.querySelectorAll('a')].find((link) => link.textContent.trim() === 'Pricing');
   pricingLink?.after(liveLink);
@@ -173,6 +173,46 @@ const startLiveStatusChecks = () => {
   window.clearInterval(liveStatusTimer);
   liveStatusTimer = window.setInterval(checkLiveStatus, 15000);
 };
+
+const shareLiveButton = document.querySelector('#share-live-button');
+const copyLiveButton = document.querySelector('#copy-live-button');
+const shareNote = document.querySelector('#share-note');
+const liveShareUrl = `${window.location.origin}/live/`;
+
+const copyLiveLink = async () => {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(liveShareUrl);
+    } else {
+      const helper = document.createElement('textarea');
+      helper.value = liveShareUrl;
+      helper.setAttribute('readonly', '');
+      helper.style.position = 'fixed';
+      helper.style.opacity = '0';
+      document.body.appendChild(helper);
+      helper.select();
+      document.execCommand('copy');
+      helper.remove();
+    }
+    if (shareNote) shareNote.textContent = 'Private link copied.';
+  } catch (_) {
+    if (shareNote) shareNote.textContent = `Copy this link: ${liveShareUrl}`;
+  }
+};
+
+copyLiveButton?.addEventListener('click', copyLiveLink);
+shareLiveButton?.addEventListener('click', async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Watch the Wedding Reception live', text: 'Join the private KVL.app livestream.', url: liveShareUrl });
+      if (shareNote) shareNote.textContent = 'Share sheet opened.';
+    } catch (error) {
+      if (error.name !== 'AbortError') copyLiveLink();
+    }
+  } else {
+    copyLiveLink();
+  }
+});
 
 if (pinGate && liveContent && pinForm) {
   const unlockLivePage = () => {
