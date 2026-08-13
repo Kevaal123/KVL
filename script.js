@@ -4,8 +4,28 @@ const nav = document.querySelector('.site-nav');
 // Basic client-side access control only; use Cloudflare signed URLs or server-side authentication for stronger security.
 const EVENT_PIN = "2580";
 const CLOUDFLARE_LIFECYCLE_URL = 'https://customer-qkwe88t0rzsqmnjy.cloudflarestream.com/e6b760ce813b42de4fb8a2f5433dcaef/lifecycle';
-const LIVE_STATUS_KEY = 'kvl-live-input-has-started-v1';
+const LIVE_STATUS_KEY = 'kvl-live-input-has-started-session-v2';
+const ASSET_VERSION = '20260813-2';
+const CACHE_CLEANUP_VERSION = 'kvl-cache-cleanup-20260813-1';
 const pageNames = ['how-it-works', 'pricing', 'about', 'contact', 'live'];
+
+// One-time cleanup for any old KVL service worker/cache from an earlier deployment.
+// This site does not use offline/PWA functionality, so it will not run again after this version is marked.
+const cleanupOldKvlCaches = async () => {
+  try {
+    if (localStorage.getItem(CACHE_CLEANUP_VERSION) === 'done') return;
+    const registrations = await navigator.serviceWorker?.getRegistrations?.() || [];
+    await Promise.all(registrations.map((registration) => registration.unregister()));
+    const cacheNames = typeof caches !== 'undefined' ? await caches.keys() : [];
+    const kvlCacheNames = cacheNames.filter((cacheName) => /kvl|workbox|precache/i.test(cacheName));
+    await Promise.all(kvlCacheNames.map((cacheName) => caches.delete(cacheName)));
+    localStorage.removeItem('kvl-live-input-has-started-v1');
+    localStorage.setItem(CACHE_CLEANUP_VERSION, 'done');
+  } catch (_) {
+    // Storage/service-worker APIs may be unavailable; the site remains usable without cleanup.
+  }
+};
+cleanupOldKvlCaches();
 const pagePath = window.location.pathname.split('/').filter(Boolean).pop()?.replace('.html', '') || 'index';
 const cleanPath = pageNames.includes(pagePath) ? `/${pagePath}/` : '/';
 if (window.location.pathname.endsWith('.html') && window.history?.replaceState) {
@@ -14,7 +34,7 @@ if (window.location.pathname.endsWith('.html') && window.history?.replaceState) 
 
 const imageFixes = document.createElement('link');
 imageFixes.rel = 'stylesheet';
-imageFixes.href = '/site-fixes.css';
+imageFixes.href = `/site-fixes.css?v=${ASSET_VERSION}`;
 document.head.appendChild(imageFixes);
 
 document.querySelectorAll('a[href$=".html"]').forEach((link) => {
@@ -155,11 +175,11 @@ const checkLiveStatus = async () => {
     if (!response.ok) return;
     const lifecycle = await response.json();
     if (lifecycle.live === true) {
-      try { localStorage.setItem(LIVE_STATUS_KEY, 'started'); } catch (_) {}
+      try { sessionStorage.setItem(LIVE_STATUS_KEY, 'started'); } catch (_) {}
       setLiveStatus('live');
     } else {
       let hasStarted = false;
-      try { hasStarted = localStorage.getItem(LIVE_STATUS_KEY) === 'started'; } catch (_) {}
+      try { hasStarted = sessionStorage.getItem(LIVE_STATUS_KEY) === 'started'; } catch (_) {}
       setLiveStatus(hasStarted ? 'ended' : 'waiting');
     }
   } catch (_) {
