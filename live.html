@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css?v=20260813-3">
+  <link rel="stylesheet" href="site.css?v=20260816-1">
 </head>
 <body class="live-page">
   <header class="site-header">
@@ -32,9 +32,9 @@
   <main>
     <section class="live-hero section">
       <div class="live-hero-copy">
-        <span class="eyebrow live-eyebrow"><span class="live-dot"></span> LIVE &bull; PRIVATE EVENT</span>
+        <span class="eyebrow live-eyebrow"><span class="live-dot"></span> PRIVATE EVENT RECORDING</span>
         <h1 class="page-title">Wedding<br><em>Reception</em></h1>
-        <p>Watch the celebration live from anywhere in the world.</p>
+        <p>Watch the celebration from anywhere in the world.</p>
       </div>
       <div class="live-hero-mark" aria-hidden="true">KVL<span>.app</span></div>
     </section>
@@ -48,16 +48,15 @@
         <form class="pin-form" id="pin-form">
           <label for="event-pin">PIN</label>
           <input id="event-pin" name="pin" type="password" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required>
-          <button class="button" type="submit">Watch Live <b>&rarr;</b></button>
+          <button class="button" type="submit">Watch Recording <b>&rarr;</b></button>
           <span class="form-note" id="pin-error" role="alert"></span>
         </form>
       </div>
 
       <div id="live-content" hidden>
-        <div class="live-player-heading"><span class="eyebrow">PRIVATE CLIENT BROADCAST</span><span class="live-badge" id="live-status-badge" data-status="waiting" aria-live="polite"><span class="live-dot"></span><span id="live-status-label">WAITING</span></span></div>
-        <div class="live-player" aria-label="Private wedding reception livestream">
-          <iframe src="https://customer-qkwe88t0rzsqmnjy.cloudflarestream.com/e6b760ce813b42de4fb8a2f5433dcaef/iframe" title="Wedding Reception livestream" allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen></iframe>
-          <div class="live-ended-overlay" id="live-ended-overlay" hidden><strong>Live stream has ended.</strong><span>The recording may be available after the event.</span></div>
+        <div class="live-player-heading"><span class="eyebrow">PRIVATE CLIENT RECORDING</span><span class="live-badge" id="live-status-badge" data-status="ended" aria-label="Recording available"><span class="live-dot"></span><span id="live-status-label">RECORDING</span></span></div>
+        <div class="live-player" aria-label="Private wedding reception recording">
+          <iframe id="recorded-player" src="https://customer-qkwe88t0rzsqmnjy.cloudflarestream.com/8877bf72bafcaa616f01afc269d2845d/iframe?poster=https%3A%2F%2Fcustomer-qkwe88t0rzsqmnjy.cloudflarestream.com%2F8877bf72bafcaa616f01afc269d2845d%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&amp;startTime=54m12s" loading="lazy" title="Wedding Reception recording" allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen></iframe>
         </div>
 
         <article class="glass-card live-event-card">
@@ -80,6 +79,6 @@
   </main>
 
   <footer class="site-footer live-footer"><div><a class="brand" href="index.html">KVL<span>.app</span></a><p>Professional livestreaming for every special moment.</p></div><div><h4>Quick Links</h4><a href="index.html">Home</a><a href="how-it-works.html">How It Works</a><a href="pricing.html">Pricing</a><a href="live.html">Watch Live</a></div><div><h4>Contact</h4><a href="mailto:Kevalsatish@gmail.com">Kevalsatish@gmail.com</a><a href="about.html#contact">Get a quote</a><span>Leicester, United Kingdom</span></div><div class="footer-bottom">&copy; 2026 KVL.app. All rights reserved.</div></footer>
-  <script src="script.js?v=20260813-3"></script>
+  <script src="script.js?v=20260816-1"></script>
 </body>
 </html>

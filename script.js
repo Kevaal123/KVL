@@ -159,6 +159,7 @@ const liveAccessKey = 'kvl-live-session-access';
 const liveStatusBadge = document.querySelector('#live-status-badge');
 const liveStatusLabel = document.querySelector('#live-status-label');
 const liveEndedOverlay = document.querySelector('#live-ended-overlay');
+const recordedPlayer = document.querySelector('#recorded-player');
 let liveStatusTimer;
 
 const setLiveStatus = (status) => {
@@ -239,7 +240,7 @@ if (pinGate && liveContent && pinForm) {
     pinGate.hidden = true;
     liveContent.hidden = false;
     sessionStorage.setItem(liveAccessKey, 'granted');
-    startLiveStatusChecks();
+    if (!recordedPlayer) startLiveStatusChecks();
   };
 
   if (sessionStorage.getItem(liveAccessKey) === 'granted') unlockLivePage();
